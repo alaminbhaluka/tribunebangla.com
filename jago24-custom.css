@@ -1,0 +1,197 @@
+/* ==========================================================
+ *  JAGO24 THEME - additions on top of jago24-style.css
+ * ========================================================== */
+
+/* ---------- Ad slots: never bigger than the reference size ---------- */
+.j24-ad-slot{margin:0 auto;width:100%;overflow:hidden;line-height:0}
+.j24-ad-slot img,.j24-ad-slot iframe,.j24-ad-slot ins{max-width:100%!important;height:auto;display:inline-block}
+.j24-ad-slot > div{line-height:normal}
+.pitwAdv .j24-ad-slot{display:block}
+.ad-banner{margin:15px 0;text-align:center}
+.archive-loop-ad .j24-ad-slot{margin:0 auto}
+.bottom_ad .j24-ad-slot{max-width:970px}
+
+/* ---------- Header extras ---------- */
+.desktop_navbar_nav .j24-home-item > a{padding-left:12px;padding-right:12px}
+.header-soacial a{text-decoration:none}
+.sm-main-header_inner .search_btn{cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sm-main-header_inner .search_btn i{font-size:18px;color:#000}
+.pitwSideNav .header-soacial a{margin:0 4px}
+
+/* ---------- Slick arrows (font-awesome) ---------- */
+.slick-prev:before,.slick-next:before{content:none!important}
+.photo_slider .slick-prev,.photo_slider .slick-next{z-index:5;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.55)!important;color:#fff;font-size:20px;display:flex!important;align-items:center;justify-content:center}
+.photo_slider .slick-prev{left:12px}.photo_slider .slick-next{right:12px}
+.j24-sm-photo-slider{margin-bottom:30px}
+.j24-sm-photo-slider .slick-dots{bottom:-26px}
+
+/* ---------- Poll ---------- */
+.j24-poll .option-label{position:relative;overflow:hidden}
+.j24-poll .result-fill{position:absolute;left:0;top:0;bottom:0;background:rgba(179,15,15,.12);z-index:0;transition:width .6s ease}
+.j24-poll .check-label,.j24-poll .result-percent{position:relative;z-index:1}
+.j24-poll .result-percent{float:right;font-weight:700}
+.j24-poll .pool-card-footer a{color:inherit}
+
+/* ---------- Single post ---------- */
+.j24-single-subtitle{font-size:20px;line-height:30px;color:#b30f0f;margin-bottom:6px}
+.j24-desig{font-size:13px;color:#666}
+.j24-updated{color:#666}
+.j24-video-embed{position:relative;padding-top:56.25%;background:#000}
+.j24-video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.shared_options .whatsapp{background:#25d366}
+.j24-article + .j24-article{margin-top:20px}
+#news-loader{text-align:center;padding:15px 0}
+.j24-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;background:#333;color:#fff;border-radius:4px;z-index:99999;font-size:15px}
+
+/* ---------- Lists / archive ---------- */
+.j24-empty{padding:40px 15px;text-align:center;color:#666;font-size:18px;border:1px dashed #ddd;margin:15px 0}
+.j24-cat-subs{display:flex;flex-wrap:wrap;gap:8px;margin:-5px 0 15px}
+.j24-cat-subs a{border:1px solid #ddd;padding:2px 12px;font-size:15px;color:#000;text-decoration:none;border-radius:3px}
+.j24-cat-subs a:hover{background:#b30f0f;color:#fff;border-color:#b30f0f}
+.j24-search-info{font-size:16px;color:#555;margin:10px 0 15px}
+.j24-archive-form{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 20px;padding:12px;background:#f5f5f5}
+.j24-archive-form input{border:1px solid #ddd;padding:6px 10px;font-size:16px}
+.j24-archive-form button{border:0;background:#b30f0f;color:#fff;padding:7px 16px;font-size:16px}
+.j24-mobile .j24-archive-form{margin:0 12px 15px}
+.pitw_load_more{text-align:center;margin:10px 0 25px}
+.pitw_load_more .load-more{border:1px solid #b30f0f;background:#fff;color:#b30f0f;padding:6px 30px;font-size:17px;cursor:pointer;transition:all .2s}
+.pitw_load_more .load-more:hover{background:#b30f0f;color:#fff}
+
+/* ---------- Footer ---------- */
+.j24-copyright{text-align:center;font-size:14px;padding:12px 0 0;margin-top:12px;border-top:1px solid rgba(0,0,0,.1)}
+.PrimeItWorld_footer_sm .j24-copyright{padding:10px 12px}
+.footer-editors p,.footer-contacts p,.footer-editors-sm p,.footer-contacts-sm p{margin-bottom:4px}
+
+/* ---------- Other pages of your system inside the Jago24 header/footer ---------- */
+.j24-legacy-main{min-height:50vh}
+.j24-legacy .PrimeItWorld_main{padding-top:0}
+.j24-legacy.j24-mobile .j24-legacy-main{padding-top:4px}
+.header-nav-inner > .container{width:100%!important;max-width:100%!important}
+
+/* =====================================================================
+   v1.1 corrections
+   ===================================================================== */
+
+/* ---------- Category headings highlighted on desktop (same colours as mobile) ---------- */
+.j24-hl{--hl:#be3128}
+.j24-c-red{--hl:#be3128}.j24-c-green{--hl:#7bb10a}.j24-c-brown{--hl:#e8a430}.j24-c-blue{--hl:#0670e0}.j24-c-purple{--hl:#d65898}.j24-c-teal{--hl:#0e9488}
+.j24-hl .j24-hl-t{display:inline-block;background:var(--hl);color:#fff!important;padding:6px 30px 4px 14px;border-radius:0 30px 30px 0;line-height:1.25;white-space:nowrap;transition:filter .2s}
+.j24-hl a:hover .j24-hl-t{filter:brightness(1.08)}
+.j24-hl h2,.j24-hl h3,h2.j24-hl,h3.j24-hl{font-size:22px!important;line-height:1.25!important;color:#fff}
+h3.sub_sec_title.j24-hl,.spcialRepostTitle.j24-hl h3{font-size:19px!important}
+.j24-hl h2,.j24-hl h3,h2.j24-hl,h3.j24-hl{position:relative;background:linear-gradient(var(--hl),var(--hl)) 0 50%/100% 2px no-repeat}
+.sectionTitleWithSub.j24-hl h2,.sectionTitleWithSub2 .j24-hl h2{background:none}
+.sectionTitleWithSub.j24-hl{border-bottom:2px solid var(--hl)!important}
+.sectionTitleWithSub.j24-hl h2 .j24-hl-t{border-radius:0 30px 0 0}
+.j24-hl a{text-decoration:none!important}
+.opinionTitle.j24-hl{border:0!important;padding:0!important;margin-bottom:12px}
+.opinionTitle.j24-hl:before,.opinionTitle.j24-hl:after,.sectionTitle.j24-hl:before,.sectionTitle.j24-hl:after,.sectionTitle.j24-hl h2:before,.sectionTitle.j24-hl h2:after,.catTitle.j24-hl:before,.catTitle.j24-hl:after{display:none!important}
+.sectionTitle.j24-hl,.singleBlockTitle.j24-hl,.catTitle.j24-hl,.spcialRepostTitle.j24-hl{border:0!important}
+.sectionTitle.j24-hl h2,.sectionTitle.j24-hl h2 a{border:0!important}
+.sec_heading_sm.red h2{color:#be3128}
+.sec_heading_sm.teal h2{color:#0e9488}
+.sec_heading_sm.teal h2:after,.sec_heading_sm.teal h2:before{background:#0e9488}
+.sec_heading_sm.purple h2{color:#d65898}.sec_heading_sm.blue h2{color:#0670e0}.sec_heading_sm.brown h2{color:#e8a430}
+
+/* ---------- Ads (demo ads of the reference site in empty slots) ---------- */
+.j24-ad-slot{margin-left:auto;margin-right:auto}
+.j24-ad-slot img{max-width:100%;height:auto;display:block;margin:0 auto}
+.j24-demo-ad{line-height:0}
+
+/* ---------- Post page: breadcrumb on mobile red like desktop ---------- */
+.pitw_breadCrumb_sm{background:#f5f5f5;border-bottom:0;box-shadow:none;padding:8px 15px 6px;margin-bottom:12px}
+.pitw_breadCrumb_sm li a{color:#b30f0f;font-size:15px;padding:2px 0}
+.pitw_breadCrumb_sm li + li::before{padding:0 5px 0 7px;color:#b0aeae;content:"/\00a0"}
+.pitw_breadCrumb_sm li:first-child a{padding-left:0}
+
+/* ---------- Post page: views + download on the featured image (glass look) ---------- */
+.j24-img-wrap{position:relative;overflow:hidden;line-height:0}
+.j24-img-wrap > img{width:100%}
+.j24-img-views,.j24-img-dl{position:absolute;top:10px;z-index:2;box-sizing:border-box;height:26px;display:inline-flex;align-items:center;gap:5px;color:#fff;border-radius:0;
+  background:rgba(20,22,28,.62);border:1px solid rgba(255,255,255,.28);-webkit-backdrop-filter:blur(8px) saturate(140%);backdrop-filter:blur(8px) saturate(140%);
+  box-shadow:0 4px 14px rgba(0,0,0,.12);line-height:1;font-size:12px;text-decoration:none}
+.j24-img-views{left:10px;padding:0 9px;border-radius:0}
+.j24-img-views b{font-weight:700}
+.j24-img-dl{right:10px;width:26px;height:26px;border-radius:0;justify-content:center;font-size:12px;transition:background .2s,transform .2s}
+.j24-img-dl:hover{background:rgba(20,22,28,.8);color:#fff;transform:translateY(-2px)}
+.j24-img-dl.is-loading i{animation:j24spin 1s linear infinite}
+@keyframes j24spin{to{transform:rotate(360deg)}}
+.j24-mobile .j24-img-views{left:8px;top:8px;bottom:auto;font-size:11px;padding:0 7px;height:24px}
+.j24-mobile .j24-img-dl{right:8px;top:8px;bottom:auto;width:24px;height:24px;font-size:11px}
+
+/* ---------- Post page: reporter follow ---------- */
+.j24-auth-line{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+/* reporter photo: same 40px size, perfectly round, never squeezed/cropped on the sides */
+.singleAuthorDate .auth > a{flex:0 0 40px;width:40px;height:40px;display:block;line-height:0}
+.singleAuthorDate .auth > a img{display:block;width:40px!important;height:40px!important;min-width:40px;max-width:none;border-radius:50%;object-fit:cover;object-position:center top}
+.j24-rfollow-count{font-size:13px;color:#666}
+.j24-rfollow{display:inline-flex;align-items:center;gap:5px;border:1px solid #b30f0f;color:#b30f0f;background:#fff;border-radius:30px;padding:3px 11px;font-size:12.5px;font-weight:600;line-height:1.3;cursor:pointer;transition:all .2s}
+.j24-rfollow:hover,.j24-rfollow.is-following{background:#b30f0f;color:#fff}
+.j24-rfollow[disabled]{opacity:.6}
+
+/* ---------- News text a little bigger ---------- */
+.singleDetails,.singleDetails p{font-size:20px;line-height:34px}
+.singleDetails._sm,.singleDetails._sm p{font-size:19px;line-height:30px}
+
+/* ---------- "Recent Article" (আরো পড়ুন) card ---------- */
+.j24-readalso{margin:22px 0;clear:both}
+.j24-readalso a{display:flex;align-items:stretch;gap:0;text-decoration:none;border:1px solid #ececec;border-left:4px solid #b30f0f;background:linear-gradient(90deg,#fff7f7,#fff 60%);border-radius:6px;overflow:hidden;transition:box-shadow .2s,transform .2s}
+.j24-readalso a:hover{box-shadow:0 8px 22px rgba(0,0,0,.08);transform:translateY(-1px)}
+.j24-readalso-img{flex:0 0 34%;max-width:230px;position:relative;line-height:0;background:#eee}
+.j24-readalso-img img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10}
+.j24-readalso-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:12px 16px;min-width:0}
+.j24-readalso-label{font-size:14px;font-weight:700;color:#b30f0f;line-height:1.3;margin-bottom:5px}
+.j24-readalso-label em{font-style:normal;color:#777;font-weight:500;margin-left:4px}
+.j24-readalso-label em:before{content:"• "}
+.j24-readalso-title{font-size:19px;font-weight:600;line-height:1.45;color:#111;text-align:left;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.j24-readalso a:hover .j24-readalso-title{color:#b30f0f}
+.j24-readalso-go{margin-top:6px;font-size:13px;color:#555;line-height:1.3}
+.singleDetails._sm .j24-readalso-img{flex-basis:38%}
+.singleDetails._sm .j24-readalso-body{padding:8px 10px}
+.singleDetails._sm .j24-readalso-title{font-size:16px;line-height:1.4;-webkit-line-clamp:3}
+.singleDetails._sm .j24-readalso-go{display:none}
+.singleDetails._sm .j24-readalso-label{font-size:13px}
+
+/* ---------- Special news blocks (Admin > news upload, optional) ---------- */
+.j24x-head{font-weight:700;font-size:17px;line-height:1.3;display:flex;align-items:center;gap:8px;margin-bottom:10px;color:#b30f0f;text-align:left}
+.j24x-notice{display:flex;gap:10px;align-items:flex-start;background:#fff8e6;border:1px solid #f3dfa8;border-left:4px solid #e8a430;padding:10px 14px;margin:0 0 18px;border-radius:6px;font-size:16px;line-height:1.6;text-align:left}
+.j24x-notice i{color:#e8a430;margin-top:4px}
+.j24x-points{background:#f7f9fc;border:1px solid #e6ebf3;border-radius:8px;padding:14px 18px;margin:0 0 20px}
+.j24x-points ul{margin:0;padding:0;list-style:none}
+.j24x-points li{position:relative;padding-left:22px;margin:0 0 6px;font-size:17px;line-height:1.6;text-align:left}
+.j24x-points li:before{content:"";position:absolute;left:3px;top:.62em;width:9px;height:9px;border-radius:50%;background:#b30f0f;box-shadow:0 0 0 3px rgba(179,15,15,.15)}
+.j24x-quote{position:relative;margin:24px 0;padding:18px 22px 16px 58px;background:#fafafa;border-radius:8px;border:1px solid #eee}
+.j24x-quote > i{position:absolute;left:18px;top:18px;font-size:26px;color:#b30f0f;opacity:.85}
+.j24x-quote blockquote{margin:0;font-size:21px;line-height:1.6;font-weight:600;color:#222;text-align:left;border:0;padding:0;background:none}
+.j24x-quote blockquote:before,.j24x-quote blockquote:after{display:none!important}
+.j24x-quote figcaption{margin-top:8px;font-size:15px;color:#666;text-align:right}
+.j24x-facts{border:1px solid #e6e6e6;border-top:3px solid #0670e0;border-radius:6px;padding:14px 16px;margin:22px 0;background:#fff}
+.j24x-facts .j24x-head{color:#0670e0}
+.j24x-facts dl{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.j24x-facts dl > div{background:#f4f8fe;border-radius:6px;padding:8px 12px;text-align:left}
+.j24x-facts dl > div.j24x-full{grid-column:1/-1}
+.j24x-facts dt{font-size:13.5px;color:#5b6474;font-weight:500;line-height:1.4}
+.j24x-facts dd{margin:2px 0 0;font-size:17px;font-weight:700;color:#111;line-height:1.4}
+.j24x-timeline{margin:26px 0 18px;padding:16px 18px;border:1px solid #eee;border-radius:8px;background:#fff}
+.j24x-timeline ol{list-style:none;margin:0;padding:0 0 0 6px;position:relative}
+.j24x-timeline ol:before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:linear-gradient(#b30f0f,#f0b3b3)}
+.j24x-timeline li{position:relative;padding:0 0 14px 30px;text-align:left}
+.j24x-timeline li:last-child{padding-bottom:0}
+.j24x-timeline li:before{content:"";position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #b30f0f}
+.j24x-time{display:inline-block;font-size:13.5px;font-weight:700;color:#b30f0f;background:#fdeeee;border-radius:20px;padding:1px 10px;line-height:1.6;margin-bottom:3px}
+.j24x-event{display:block;font-size:17px;line-height:1.55;color:#222}
+.j24x-source{font-size:15px;color:#666;margin:10px 0 0;text-align:left}
+.j24x-source i{color:#999;margin-right:4px}
+.singleDetails._sm .j24x-quote{padding:14px 14px 12px 46px}
+.singleDetails._sm .j24x-quote > i{left:14px;top:14px;font-size:20px}
+.singleDetails._sm .j24x-quote blockquote{font-size:18px}
+.singleDetails._sm .j24x-facts dl{grid-template-columns:1fr}
+.singleDetails._sm .j24x-points li,.singleDetails._sm .j24x-event{font-size:16px}
+.singleDetails .j24x-points ul,.singleDetails .j24x-timeline ol{list-style:none!important;padding-left:0;margin-left:0}
+.singleDetails .j24x-points li,.singleDetails .j24x-timeline li{list-style:none!important}
+.singleDetails .j24x-points li::marker,.singleDetails .j24x-timeline li::marker{content:""}
+.singleDetails .j24x-timeline ol{padding-left:6px}
+.mft-tts-player{transition:bottom .25s ease}
+.catTitle.j24-hl .j24-hl-t{white-space:normal;font-size:18px;padding-right:22px}
+.singleDetails .j24x-quote blockquote,.singleDetails._sm .j24x-quote blockquote{padding:0!important;margin:0!important;border:0!important;background:none!important;text-align:left!important;font-style:normal}
+.singleDetails._sm .j24x-quote blockquote{font-size:18px!important;line-height:1.6!important}
