@@ -161,15 +161,7 @@ Bangla News Portal
     <section class="primeitworld_tranding_section">
     <div class="container">
       <div class="trd_sec_wrap">
-        <div class="trd_sec_header"><img alt="ট্রেন্ডিং" src="https://tribunebangla.com/themes/jago24/assets/images/trending-banner.jpg"/></div>        <div class="trd_sec_inner">
-                    <div class="trd_news_item"><a href="https://tribunebangla.com/post/9619/"><div class="trd_news_item_thumb"><img alt="৫২ লাখ টন সরবরাহের অভিজ্ঞতা নিয়ে রামপালের কয়লা চুক্তির দৌড়ে লিয়ানেক্স" class="lazyload" data-src="https://tribunebangla.com/uploads/2026/11/Mahamudfutureit.com_17944006623051.jpg" src="https://tribunebangla.com/uploads/20261026_214141_0000.jpg"/></div><div class="trd_news_item_content"><h4>৫২ লাখ টন সরবরাহের অভিজ্ঞতা নিয়ে রামপালের কয়লা চুক্তির দৌড়ে লিয়ানেক্স</h4></div></a></div>
-                    <div class="trd_news_item"><a href="https://tribunebangla.com/post/9618/"><div class="trd_news_item_thumb"><img alt="জলবায়ু সম্মেলনে বিশ্বনেতাদের সঙ্গে প্রধানমন্ত্রীর শুভেচ্ছা বিনিময়" class="lazyload" data-src="https://tribunebangla.com/uploads/2026/11/Mahamudfutureit.com_17943928422619.jpg" src="https://tribunebangla.com/uploads/20261026_214141_0000.jpg"/></div><div class="trd_news_item_content"><h4>জলবায়ু সম্মেলনে বিশ্বনেতাদের সঙ্গে প্রধানমন্ত্রীর শুভেচ্ছা বিনিময়</h4></div></a></div>
-                    <div class="trd_news_item"><a href="https://tribunebangla.com/post/9617/"><div class="trd_news_item_thumb"><img alt="নতুন কুঁড়ি স্পোর্টস সিজন-২: বরগুনায় সোনাখালী বালিকা মাধ্যমিক বিদ্যালয়ের অভাবনীয় সাফল্য" class="lazyload" data-src="https://tribunebangla.com/uploads/2026/11/Mahamudfutureit.com_17943886325166.jpg" src="https://tribunebangla.com/uploads/20261026_214141_0000.jpg"/></div><div class="trd_news_item_content"><h4>নতুন কুঁড়ি স্পোর্টস সিজন-২: বরগুনায় সোনাখালী বালিকা মাধ্যমিক বিদ্যালয়ের অভাবনীয় সাফল্য</h4></div></a></div>
-                    <div class="trd_news_item"><a href="https://tribunebangla.com/post/9616/"><div class="trd_news_item_thumb"><img alt="দক্ষিণাঞ্চলে অবৈধ ট্রলিংয়ের থাবায় ধ্বংস হচ্ছে সামুদ্রিক মৎস্যসম্পদ ! জাতীয় সংসদে চিফ হুইপের উদ্বেগ : কঠোর আইন প্রণয়নের আশ্বাস মৎস্যমন্ত্রীর" class="lazyload" data-src="https://tribunebanglar.com/uploads/2026/11/Mahamudfutureit.com_17943823348424.jpg" src="https://tribunebangla.com/uploads/20261026_214141_0000.jpg"/></div><div class="trd_news_item_content"><h4>দক্ষিণাঞ্চলে অবৈধ ট্রলিংয়ের থাবায় ধ্বংস হচ্ছে সামুদ্রিক মৎস্যসম্পদ ! জাতীয় সংসদে চিফ হুইপের উদ্বেগ : কঠোর আইন প্রণয়নের আশ্বাস মৎস্যমন্ত্রীর</h4></div></a></div>
-                    <div class="trd_news_item"><a href="https://tribunebangla.com/post/9615/"><div class="trd_news_item_thumb"><img alt="Super Petrochemical Refinery: Approval Comes Under Scrutiny" class="lazyload" data-src="https://tribunebangla.com/uploads/2026/11/Mahamudfutureit.com_17943820156660.jpg" src="https://tribunebangla.com/uploads/20261026_214141_0000.jpg"/></div><div class="trd_news_item_content"><h4>Super Petrochemical Refinery: Approval Comes Under Scrutiny</h4></div></a></div>
-                  </div>
-      </div>
-    </div>
+        <div class="trd_sec_header"><img alt="ট্রেন্ডিং" src="https://tribunebangla.com/themes/jago24/assets/images/trending-banner.jpg"/></div>       
   </section>
   
   <section class="primeitworld_main">
