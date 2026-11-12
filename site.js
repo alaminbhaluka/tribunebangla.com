@@ -357,6 +357,25 @@
     });
   }
 
+  function setupAccountLinks() {
+    const footer = document.querySelector('#menu-footer-menu');
+    footer?.querySelectorAll('a').forEach((link) => {
+      const label = text(link.textContent);
+      if (label === 'নিবন্ধন') link.href = '/register';
+      if (label === 'লগইন') link.href = '/login';
+    });
+
+    const navigation = document.querySelector('.desktop_navbar_nav');
+    if (!navigation || navigation.querySelector('.account-nav-link')) return;
+    const item = document.createElement('li');
+    item.className = 'menu-item account-nav-link';
+    const link = document.createElement('a');
+    link.href = '/account';
+    link.textContent = '👤 আমার অ্যাকাউন্ট';
+    item.append(link);
+    navigation.append(item);
+  }
+
   function setupTabs() {
     const tabs = [...document.querySelectorAll('#recentPopular-tab [role="tab"]')];
     tabs.forEach((tab, index) => {
@@ -584,6 +603,7 @@
     window.setInterval(showNextPrayer, 60000);
   }
 
+  setupAccountLinks();
   setupSearch();
   renderRoute();
   setupTabs();

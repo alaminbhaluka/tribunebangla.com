@@ -1,6 +1,9 @@
 {
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/account", "destination": "/account/index.html" },
+    { "source": "/register", "destination": "/account/index.html?view=register" },
+    { "source": "/login", "destination": "/account/index.html?view=login" },
     { "source": "/post/:id", "destination": "/" },
     { "source": "/search", "destination": "/" },
     { "source": "/national", "destination": "/" },

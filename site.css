@@ -185,6 +185,17 @@
   display: none !important;
 }
 
+.desktop_navbar_nav > .account-nav-link > a {
+  border-radius: 6px;
+  background: #b51f2b;
+  color: #fff;
+}
+
+.desktop_navbar_nav > .account-nav-link > a:hover {
+  background: #8f1721;
+  color: #fff;
+}
+
 @media (max-width: 640px) {
   .site-route-page {
     margin: 16px 10px;
