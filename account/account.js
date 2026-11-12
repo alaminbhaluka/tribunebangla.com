@@ -10,11 +10,18 @@
   const dashboard = byId('dashboard');
   const authStatus = byId('auth-status');
   const dashboardStatus = byId('dashboard-status');
+  const profilePhotoInput = byId('profile-photo-file');
+  const profilePhotoUploadButton = byId('profile-photo-upload');
+  const profilePhotoStatus = byId('profile-photo-status');
+  const AVATAR_BUCKET = 'profile-images';
+  const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
+  const AVATAR_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
   const registerForm = byId('register-form');
   const loginForm = byId('login-form');
   let currentUser = null;
   let profile = null;
   let publishedArticles = null;
+  let photoPreviewUrl = '';
 
   function setStatus(node, message, kind = '') {
     if (!node) return;
@@ -37,6 +44,51 @@
       address_line: String(values.address_line || '').trim() || null,
       newsletter_opt_in: values.newsletter_opt_in === 'on'
     };
+  }
+
+  function safeProfilePhotoUrl(value) {
+    try {
+      const url = new URL(value);
+      if (url.origin !== SUPABASE_URL ||
+          !url.pathname.startsWith(`/storage/v1/object/public/${AVATAR_BUCKET}/`)) return '';
+      return url.href;
+    } catch {
+      return '';
+    }
+  }
+
+  function setProfilePhoto(url, name) {
+    const initial = name?.trim().slice(0, 1).toLocaleUpperCase() || 'প';
+    const safeUrl = safeProfilePhotoUrl(url);
+    const imageTargets = [
+      [byId('user-avatar-image'), byId('user-initial')],
+      [byId('profile-photo-preview'), byId('profile-photo-fallback')]
+    ];
+    imageTargets.forEach(([image, fallback]) => {
+      fallback.textContent = initial;
+      if (!safeUrl) {
+        image.hidden = true;
+        image.removeAttribute('src');
+        fallback.hidden = false;
+        return;
+      }
+      image.onerror = () => {
+        image.hidden = true;
+        fallback.hidden = false;
+      };
+      image.src = safeUrl;
+      image.hidden = false;
+      fallback.hidden = true;
+    });
+  }
+
+  function validateProfilePhoto(file) {
+    if (!AVATAR_TYPES.has(file.type)) {
+      throw new Error('JPG, PNG বা WebP ছবি বেছে নিন।');
+    }
+    if (file.size > AVATAR_MAX_BYTES) {
+      throw new Error('প্রোফাইল ছবির আকার সর্বোচ্চ ২ MB হতে পারে।');
+    }
   }
 
   function showAuthMode(mode) {
@@ -121,7 +173,7 @@
     byId('user-name').textContent = name;
     byId('welcome-name').textContent = name.split(/\s+/)[0];
     byId('user-email').textContent = user.email || '';
-    byId('user-initial').textContent = name.slice(0, 1).toLocaleUpperCase();
+    setProfilePhoto(metadata.avatar_url, name);
     byId('user-role').textContent = roleName(profile.role);
     byId('email-verification-status').textContent = user.email_confirmed_at
       ? 'আপনার ইমেইল যাচাই করা হয়েছে।'
@@ -163,7 +215,7 @@
     return message || 'অনুরোধটি সম্পন্ন হয়নি। আবার চেষ্টা করুন।';
   }
 
-  async function withButton(button, busyText, task) {
+  async function withButton(button, busyText, task, statusNode) {
     const original = button.textContent;
     button.disabled = true;
     button.textContent = busyText;
@@ -171,7 +223,7 @@
       await task();
     } catch (error) {
       console.error('Account request failed:', error);
-      setStatus(authPanel.hidden ? dashboardStatus : authStatus, friendlyError(error), 'error');
+      setStatus(statusNode || (authPanel.hidden ? dashboardStatus : authStatus), friendlyError(error), 'error');
     } finally {
       button.disabled = false;
       button.textContent = original;
@@ -393,6 +445,61 @@
       if (metadataError) throw metadataError;
       await loadProfile(currentUser);
       setStatus(dashboardStatus, 'আপনার তথ্য সংরক্ষণ হয়েছে।', 'success');
+    });
+  });
+
+  profilePhotoInput.addEventListener('change', () => {
+    const file = profilePhotoInput.files?.[0];
+    profilePhotoUploadButton.disabled = !file;
+    setStatus(profilePhotoStatus, '');
+    if (photoPreviewUrl) URL.revokeObjectURL(photoPreviewUrl);
+    photoPreviewUrl = '';
+    if (!file) {
+      setProfilePhoto(currentUser?.user_metadata?.avatar_url, profile?.full_name);
+      return;
+    }
+    try {
+      validateProfilePhoto(file);
+      photoPreviewUrl = URL.createObjectURL(file);
+      const preview = byId('profile-photo-preview');
+      preview.src = photoPreviewUrl;
+      preview.hidden = false;
+      byId('profile-photo-fallback').hidden = true;
+    } catch (error) {
+      profilePhotoInput.value = '';
+      profilePhotoUploadButton.disabled = true;
+      setProfilePhoto(currentUser?.user_metadata?.avatar_url, profile?.full_name);
+      setStatus(profilePhotoStatus, error.message, 'error');
+    }
+  });
+
+  profilePhotoUploadButton.addEventListener('click', () => {
+    const file = profilePhotoInput.files?.[0];
+    void withButton(profilePhotoUploadButton, 'ছবি সংরক্ষণ হচ্ছে…', async () => {
+      if (!file) throw new Error('আগে একটি প্রোফাইল ছবি বেছে নিন।');
+      validateProfilePhoto(file);
+      const objectPath = `${currentUser.id}/avatar`;
+      const { error: uploadError } = await client.storage.from(AVATAR_BUCKET).upload(objectPath, file, {
+        cacheControl: '3600',
+        contentType: file.type,
+        upsert: true
+      });
+      if (uploadError) throw uploadError;
+      const { data: publicData } = client.storage.from(AVATAR_BUCKET).getPublicUrl(objectPath);
+      const photoUrl = `${publicData.publicUrl}?v=${Date.now()}`;
+      const { data, error: metadataError } = await client.auth.updateUser({
+        data: { avatar_url: photoUrl }
+      });
+      if (metadataError) throw metadataError;
+      currentUser = data.user;
+      setProfilePhoto(photoUrl, profile?.full_name);
+      profilePhotoInput.value = '';
+      profilePhotoUploadButton.disabled = true;
+      if (photoPreviewUrl) URL.revokeObjectURL(photoPreviewUrl);
+      photoPreviewUrl = '';
+      setStatus(profilePhotoStatus, 'প্রোফাইল ছবি সংরক্ষণ হয়েছে।', 'success');
+    }, profilePhotoStatus).finally(() => {
+      profilePhotoUploadButton.disabled = !profilePhotoInput.files?.[0];
     });
   });
 

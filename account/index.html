@@ -109,7 +109,10 @@
     <section id="dashboard" class="dashboard" hidden>
       <aside class="account-sidebar panel-card">
         <div class="user-summary">
-          <div id="user-initial" class="user-avatar">TB</div>
+          <div class="user-avatar">
+            <span id="user-initial">TB</span>
+            <img id="user-avatar-image" alt="" hidden>
+          </div>
           <div class="user-summary-copy">
             <strong id="user-name">পাঠক</strong>
             <span id="user-email"></span>
@@ -121,7 +124,7 @@
           <button type="button" class="account-menu-item" data-panel="profile"><span>👤</span> ব্যক্তিগত তথ্য</button>
           <button type="button" class="account-menu-item" data-panel="security"><span>🔒</span> অ্যাকাউন্ট নিরাপত্তা</button>
           <button type="button" class="account-menu-item" data-panel="saved"><span>🔖</span> সংরক্ষিত খবর</button>
-          <button type="button" class="account-menu-item" data-panel="submissions"><span>📰</span> খবর জমা দিন</button>
+          <button type="button" class="account-menu-item" data-panel="submissions"><span>✍️</span> নিউজ পোস্ট করুন</button>
           <button type="button" class="account-menu-item" data-panel="staff"><span>✍️</span> প্রতিনিধি হতে আবেদন</button>
         </nav>
         <button id="logout-button" class="logout-button" type="button"><span>↪</span> লগআউট</button>
@@ -136,6 +139,15 @@
             <h2><span id="welcome-name">স্বাগতম</span> 👋</h2>
             <p>আপনার তথ্য, পছন্দের খবর এবং পাঠানো প্রতিবেদনের অবস্থা এখান থেকে দেখুন।</p>
           </div>
+          <button type="button" class="quick-post-button" data-open-panel="submissions">
+            <span class="quick-post-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+              </svg>
+            </span>
+            <span class="quick-post-copy"><strong>নতুন নিউজ পোস্ট করুন</strong><small>আপনার এলাকার খবর বা প্রতিবেদন সম্পাদকীয় দলে পাঠান</small></span>
+            <span class="quick-post-arrow" aria-hidden="true">→</span>
+          </button>
           <div class="overview-grid">
             <button type="button" class="overview-card card-lilac" data-open-panel="profile"><span>👤</span><strong>ব্যক্তিগত তথ্য</strong><small>নাম, ফোন ও ঠিকানা</small></button>
             <button type="button" class="overview-card card-peach" data-open-panel="security"><span>🔐</span><strong>নিরাপত্তা</strong><small>পাসওয়ার্ড ও ইমেইল</small></button>
@@ -143,12 +155,25 @@
             <button type="button" class="overview-card card-mint" data-open-panel="submissions"><span>📰</span><strong>আমার প্রতিবেদন</strong><small>খবর পাঠান ও অবস্থা দেখুন</small></button>
             <button type="button" class="overview-card card-rose" data-open-panel="staff"><span>✍️</span><strong>প্রতিনিধি আবেদন</strong><small>আমাদের সংবাদ-পরিবারে যোগ দিন</small></button>
           </div>
-          <div class="notice-card panel-card"><span>🛡️</span><p>আপনার অ্যাকাউন্টের তথ্য নিরাপদে রাখা হয়। পাসওয়ার্ড কখনো আমাদের কর্মীদের সঙ্গে শেয়ার করবেন না।</p></div>
+          <div class="notice-card panel-card"><span>🛡️</span><p>এখানে আপনি শুধু নিজের প্রোফাইল, সংরক্ষিত খবর, জমা প্রতিবেদন ও আবেদন দেখতে পারবেন। পাসওয়ার্ড কারও সঙ্গে শেয়ার করবেন না।</p></div>
         </section>
 
         <section class="dashboard-panel panel-card" data-view="profile" hidden>
           <div class="panel-heading"><span class="section-kicker">প্রোফাইল</span><h2>ব্যক্তিগত তথ্য ও ঠিকানা</h2><p>আপনার তথ্য পরবর্তীতে পরিবর্তন করতে পারবেন।</p></div>
           <form id="profile-form" class="account-form">
+            <div class="field field-wide">
+              <span>প্রোফাইল ছবি</span>
+              <div class="profile-photo-row">
+                <span id="profile-photo-fallback" class="profile-photo-fallback" aria-hidden="true">👤</span>
+                <img id="profile-photo-preview" class="profile-photo-preview" alt="প্রোফাইল ছবির প্রিভিউ" hidden>
+                <label class="avatar-file-button" for="profile-photo-file">ছবি বেছে নিন
+                  <input id="profile-photo-file" type="file" accept="image/jpeg,image/png,image/webp">
+                </label>
+                <small>JPG, PNG বা WebP · সর্বোচ্চ ২ MB</small>
+              </div>
+              <span id="profile-photo-status" class="profile-photo-status" role="status" aria-live="polite"></span>
+              <button id="profile-photo-upload" class="primary-button" type="button" disabled>ছবি সংরক্ষণ করুন</button>
+            </div>
             <div class="form-grid">
               <label class="field">পুরো নাম <span>*</span><input name="full_name" type="text" maxlength="120" required></label>
               <label class="field">ইমেইল <input id="profile-email" type="email" readonly></label>
@@ -180,7 +205,7 @@
         </section>
 
         <section class="dashboard-panel panel-card" data-view="submissions" hidden>
-          <div class="panel-heading"><span class="section-kicker">পাঠকের কণ্ঠ</span><h2>খবর বা প্রতিবেদন পাঠান</h2><p>আপনার পাঠানো লেখা সম্পাদনা-পর্যালোচনার পর প্রকাশের জন্য বিবেচিত হবে।</p></div>
+          <div class="panel-heading"><span class="section-kicker">পাঠক ও প্রতিনিধির নিউজ</span><h2>খবর বা প্রতিবেদন পাঠান</h2><p>জমা দিলেই নিউজ প্রকাশ হবে না। সম্পাদকীয় / অ্যাডমিন প্যানেলে যাচাই ও অনুমোদনের পরেই এটি সাইটে প্রকাশিত হবে।</p></div>
           <form id="submission-form" class="account-form">
             <div class="form-grid">
               <label class="field field-wide">শিরোনাম <span>*</span><input name="title" type="text" minlength="5" maxlength="240" required placeholder="খবরের শিরোনাম"></label>
@@ -191,7 +216,7 @@
               <label class="field field-wide">তথ্যসূত্র / নোট (ঐচ্ছিক)<textarea name="source_note" rows="2" maxlength="500" placeholder="তথ্যসূত্র বা সম্পাদকের জন্য নোট"></textarea></label>
             </div>
             <label class="check-row"><input name="submission_consent" type="checkbox" required><span>এই প্রতিবেদনটি আমার নিজের বা ব্যবহারের অনুমতি আছে—আমি নিশ্চিত করছি।</span></label>
-            <button class="primary-button" type="submit">পর্যালোচনার জন্য পাঠান</button>
+            <button class="primary-button" type="submit">অনুমোদনের জন্য জমা দিন</button>
           </form>
           <div class="list-divider"></div>
           <h3 class="list-title">আমার পাঠানো প্রতিবেদন</h3>

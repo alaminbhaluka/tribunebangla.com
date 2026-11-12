@@ -330,6 +330,72 @@ body.account-body {
   grid-column: 1 / -1;
 }
 
+.profile-photo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.profile-photo-preview,
+.profile-photo-fallback {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--account-line);
+  border-radius: 50%;
+  background: #fff1f0;
+  color: var(--account-red);
+  font-size: 25px;
+  object-fit: cover;
+}
+
+.avatar-file-button {
+  position: relative;
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 8px 13px;
+  border: 1px solid #edc7c9;
+  border-radius: 8px;
+  background: #fff8f7;
+  color: var(--account-red);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.avatar-file-button input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.profile-photo-row small,
+.profile-photo-status {
+  color: var(--account-muted);
+  font-size: 11px;
+}
+
+.profile-photo-status {
+  min-height: 1px;
+}
+
+.profile-photo-status[data-error="true"] {
+  color: var(--account-red);
+}
+
+.profile-photo-status[data-success="true"] {
+  color: #21744b;
+}
+
 .check-row {
   display: flex;
   align-items: flex-start;
@@ -442,6 +508,7 @@ body.account-body {
 }
 
 .user-avatar {
+  position: relative;
   display: grid;
   width: 48px;
   height: 48px;
@@ -452,6 +519,14 @@ body.account-body {
   color: var(--account-red);
   font-size: 18px;
   font-weight: 800;
+}
+
+.user-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .user-summary-copy {
@@ -577,6 +652,65 @@ body.account-body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
+
+.quick-post-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 15px;
+  padding: 14px 17px;
+  border: 1px solid #f0c7c9;
+  border-radius: 13px;
+  background: linear-gradient(105deg, #fff1f0, #fff 76%);
+  color: var(--account-ink);
+  cursor: pointer;
+  text-align: left;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.quick-post-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--account-shadow);
+}
+
+.quick-post-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--account-red);
+  color: #fff;
+}
+
+.quick-post-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.quick-post-copy {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+}
+
+.quick-post-copy strong {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.quick-post-copy small {
+  color: var(--account-muted);
+  font-size: 11px;
+}
+
+.quick-post-arrow {
+  color: var(--account-red);
+  font-size: 22px;
+  font-weight: 800;
 }
 
 .overview-card {
@@ -914,6 +1048,25 @@ body.account-body {
   .overview-card {
     min-height: 123px;
     padding: 12px;
+  }
+
+  .quick-post-button {
+    gap: 10px;
+    padding: 11px;
+  }
+
+  .quick-post-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .quick-post-copy strong {
+    font-size: 12px;
+  }
+
+  .quick-post-copy small {
+    font-size: 10px;
   }
 
   .overview-card > span {
