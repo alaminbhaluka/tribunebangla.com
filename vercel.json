@@ -1,0 +1,26 @@
+{
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/post/:id", "destination": "/" },
+    { "source": "/search", "destination": "/" },
+    { "source": "/national", "destination": "/" },
+    { "source": "/politics", "destination": "/" },
+    { "source": "/international", "destination": "/" },
+    { "source": "/economy", "destination": "/" },
+    { "source": "/country", "destination": "/" },
+    { "source": "/dhaka", "destination": "/" },
+    { "source": "/chattogram", "destination": "/" },
+    { "source": "/rajshahi", "destination": "/" },
+    { "source": "/khulna", "destination": "/" },
+    { "source": "/barishal", "destination": "/" },
+    { "source": "/sylhet", "destination": "/" },
+    { "source": "/rangpur", "destination": "/" },
+    { "source": "/mymensingh", "destination": "/" },
+    { "source": "/sports", "destination": "/" },
+    { "source": "/entertainment", "destination": "/" },
+    { "source": "/education", "destination": "/" },
+    { "source": "/health", "destination": "/" },
+    { "source": "/islam", "destination": "/" },
+    { "source": "/islam-religion", "destination": "/" }
+  ]
+}
