@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#b51f2b">
+  <title>পাঠক অ্যাকাউন্ট | ট্রিবিউন বাংলা</title>
+  <link rel="icon" href="/Logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="/account/account.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/account/account.js" defer></script>
+</head>
+<body class="account-body">
+  <header class="account-header">
+    <a class="account-brand" href="/" aria-label="ট্রিবিউন বাংলার মূল পাতা">
+      <img src="/Logo.jpg" alt="">
+      <span>ট্রিবিউন বাংলা<small>পাঠক অ্যাকাউন্ট</small></span>
+    </a>
+    <a class="header-home" href="/">← মূল পাতায় ফিরুন</a>
+  </header>
+
+  <main class="account-wrap">
+    <section class="account-hero">
+      <div class="hero-copy">
+        <span class="eyebrow">আপনার খবর, আপনার নিয়ন্ত্রণে</span>
+        <h1>ট্রিবিউন বাংলা পাঠক-কেন্দ্র</h1>
+        <p>প্রিয় খবর সংরক্ষণ করুন, নিজের তথ্য হালনাগাদ রাখুন, অথবা আপনার এলাকার সংবাদ আমাদের জানান।</p>
+      </div>
+      <div class="hero-emblem" aria-hidden="true">TB</div>
+      <div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
+      <div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>
+    </section>
+
+    <section id="auth-panel" class="auth-panel panel-card">
+      <div class="auth-intro">
+        <span class="section-kicker">স্বাগতম</span>
+        <h2 id="auth-heading">আপনার অ্যাকাউন্ট তৈরি করুন</h2>
+        <p>নিরাপদে নিবন্ধন করে পাঠক-সুবিধাগুলো ব্যবহার করুন।</p>
+      </div>
+      <div class="auth-tabs" role="tablist" aria-label="অ্যাকাউন্টে প্রবেশ">
+        <button type="button" class="auth-tab is-active" data-auth-mode="register" role="tab" aria-selected="true">নতুন নিবন্ধন</button>
+        <button type="button" class="auth-tab" data-auth-mode="login" role="tab" aria-selected="false">লগইন</button>
+      </div>
+      <p id="auth-status" class="form-status" role="status" aria-live="polite"></p>
+
+      <form id="register-form" class="account-form">
+        <div class="form-section-title"><span>👤</span><div><h3>ব্যক্তিগত তথ্য</h3><p>যে তথ্যগুলোতে * আছে সেগুলো দিতে হবে</p></div></div>
+        <div class="form-grid">
+          <label class="field field-wide">পুরো নাম <span>*</span>
+            <input name="full_name" type="text" autocomplete="name" maxlength="120" required placeholder="আপনার নাম">
+          </label>
+          <label class="field">ইমেইল ঠিকানা <span>*</span>
+            <input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="name@example.com">
+          </label>
+          <label class="field">মোবাইল নম্বর <span>*</span>
+            <input name="phone" type="tel" autocomplete="tel" maxlength="30" required placeholder="01XXXXXXXXX">
+          </label>
+        </div>
+
+        <div class="form-section-title"><span>📍</span><div><h3>আপনার ঠিকানা</h3><p>ঠিকানা ঐচ্ছিক—পাঠকের স্থানীয় খবর সাজাতে কাজে লাগবে</p></div></div>
+        <div class="form-grid">
+          <label class="field">বিভাগ
+            <select name="division">
+              <option value="">বিভাগ নির্বাচন করুন</option>
+              <option>ঢাকা</option><option>চট্টগ্রাম</option><option>রাজশাহী</option><option>খুলনা</option>
+              <option>বরিশাল</option><option>সিলেট</option><option>রংপুর</option><option>ময়মনসিংহ</option>
+            </select>
+          </label>
+          <label class="field">জেলা
+            <input name="district" type="text" maxlength="100" placeholder="জেলার নাম">
+          </label>
+          <label class="field">উপজেলা / থানা
+            <input name="upazila" type="text" maxlength="100" placeholder="উপজেলা বা থানা">
+          </label>
+          <label class="field">বিস্তারিত ঠিকানা
+            <input name="address_line" type="text" autocomplete="street-address" maxlength="240" placeholder="এলাকা, সড়ক (ঐচ্ছিক)">
+          </label>
+        </div>
+
+        <div class="form-section-title"><span>🔐</span><div><h3>অ্যাকাউন্ট নিরাপত্তা</h3><p>কমপক্ষে ৮ অক্ষরের শক্তিশালী পাসওয়ার্ড দিন</p></div></div>
+        <div class="form-grid">
+          <label class="field">পাসওয়ার্ড <span>*</span>
+            <input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="কমপক্ষে ৮ অক্ষর">
+          </label>
+          <label class="field">পাসওয়ার্ড নিশ্চিত করুন <span>*</span>
+            <input name="password_confirm" type="password" autocomplete="new-password" minlength="8" required placeholder="আবার লিখুন">
+          </label>
+        </div>
+        <label class="check-row"><input name="newsletter_opt_in" type="checkbox"><span>গুরুত্বপূর্ণ সংবাদ ও সাইটের আপডেট ইমেইলে পেতে চাই</span></label>
+        <label class="check-row terms-row"><input name="terms" type="checkbox" required><span>আমার দেওয়া তথ্য অ্যাকাউন্ট পরিচালনা ও পাঠানো প্রতিবেদন পর্যালোচনার জন্য ব্যবহার করা হবে—আমি সম্মত। <b>*</b></span></label>
+        <button class="primary-button submit-button" type="submit">নিরাপদে নিবন্ধন করুন <span aria-hidden="true">→</span></button>
+      </form>
+
+      <form id="login-form" class="account-form" hidden>
+        <div class="form-grid">
+          <label class="field field-wide">ইমেইল ঠিকানা
+            <input name="email" type="email" autocomplete="email" required placeholder="name@example.com">
+          </label>
+          <label class="field field-wide">পাসওয়ার্ড
+            <input name="password" type="password" autocomplete="current-password" required placeholder="আপনার পাসওয়ার্ড">
+          </label>
+        </div>
+        <button class="primary-button submit-button" type="submit">লগইন করুন <span aria-hidden="true">→</span></button>
+        <button id="reset-password-button" class="text-button" type="button">পাসওয়ার্ড ভুলে গেছেন?</button>
+      </form>
+    </section>
+
+    <section id="dashboard" class="dashboard" hidden>
+      <aside class="account-sidebar panel-card">
+        <div class="user-summary">
+          <div id="user-initial" class="user-avatar">TB</div>
+          <div class="user-summary-copy">
+            <strong id="user-name">পাঠক</strong>
+            <span id="user-email"></span>
+          </div>
+          <span id="user-role" class="role-badge">পাঠক</span>
+        </div>
+        <nav class="account-menu" aria-label="অ্যাকাউন্ট মেনু">
+          <button type="button" class="account-menu-item is-active" data-panel="overview"><span>🏠</span> আমার কেন্দ্র</button>
+          <button type="button" class="account-menu-item" data-panel="profile"><span>👤</span> ব্যক্তিগত তথ্য</button>
+          <button type="button" class="account-menu-item" data-panel="security"><span>🔒</span> অ্যাকাউন্ট নিরাপত্তা</button>
+          <button type="button" class="account-menu-item" data-panel="saved"><span>🔖</span> সংরক্ষিত খবর</button>
+          <button type="button" class="account-menu-item" data-panel="submissions"><span>📰</span> খবর জমা দিন</button>
+          <button type="button" class="account-menu-item" data-panel="staff"><span>✍️</span> প্রতিনিধি হতে আবেদন</button>
+        </nav>
+        <button id="logout-button" class="logout-button" type="button"><span>↪</span> লগআউট</button>
+      </aside>
+
+      <div class="dashboard-main">
+        <p id="dashboard-status" class="form-status" role="status" aria-live="polite"></p>
+
+        <section class="dashboard-panel" data-view="overview">
+          <div class="welcome-card panel-card">
+            <span class="section-kicker">আপনার পাঠক-প্রোফাইল</span>
+            <h2><span id="welcome-name">স্বাগতম</span> 👋</h2>
+            <p>আপনার তথ্য, পছন্দের খবর এবং পাঠানো প্রতিবেদনের অবস্থা এখান থেকে দেখুন।</p>
+          </div>
+          <div class="overview-grid">
+            <button type="button" class="overview-card card-lilac" data-open-panel="profile"><span>👤</span><strong>ব্যক্তিগত তথ্য</strong><small>নাম, ফোন ও ঠিকানা</small></button>
+            <button type="button" class="overview-card card-peach" data-open-panel="security"><span>🔐</span><strong>নিরাপত্তা</strong><small>পাসওয়ার্ড ও ইমেইল</small></button>
+            <button type="button" class="overview-card card-blue" data-open-panel="saved"><span>🔖</span><strong>সংরক্ষিত খবর</strong><small>পরে পড়ার তালিকা</small></button>
+            <button type="button" class="overview-card card-mint" data-open-panel="submissions"><span>📰</span><strong>আমার প্রতিবেদন</strong><small>খবর পাঠান ও অবস্থা দেখুন</small></button>
+            <button type="button" class="overview-card card-rose" data-open-panel="staff"><span>✍️</span><strong>প্রতিনিধি আবেদন</strong><small>আমাদের সংবাদ-পরিবারে যোগ দিন</small></button>
+          </div>
+          <div class="notice-card panel-card"><span>🛡️</span><p>আপনার অ্যাকাউন্টের তথ্য নিরাপদে রাখা হয়। পাসওয়ার্ড কখনো আমাদের কর্মীদের সঙ্গে শেয়ার করবেন না।</p></div>
+        </section>
+
+        <section class="dashboard-panel panel-card" data-view="profile" hidden>
+          <div class="panel-heading"><span class="section-kicker">প্রোফাইল</span><h2>ব্যক্তিগত তথ্য ও ঠিকানা</h2><p>আপনার তথ্য পরবর্তীতে পরিবর্তন করতে পারবেন।</p></div>
+          <form id="profile-form" class="account-form">
+            <div class="form-grid">
+              <label class="field">পুরো নাম <span>*</span><input name="full_name" type="text" maxlength="120" required></label>
+              <label class="field">ইমেইল <input id="profile-email" type="email" readonly></label>
+              <label class="field">মোবাইল নম্বর<input name="phone" type="tel" maxlength="30"></label>
+              <label class="field">বিভাগ<select name="division"><option value="">বিভাগ নির্বাচন করুন</option><option>ঢাকা</option><option>চট্টগ্রাম</option><option>রাজশাহী</option><option>খুলনা</option><option>বরিশাল</option><option>সিলেট</option><option>রংপুর</option><option>ময়মনসিংহ</option></select></label>
+              <label class="field">জেলা<input name="district" type="text" maxlength="100"></label>
+              <label class="field">উপজেলা / থানা<input name="upazila" type="text" maxlength="100"></label>
+              <label class="field field-wide">বিস্তারিত ঠিকানা<input name="address_line" type="text" maxlength="240"></label>
+            </div>
+            <label class="check-row"><input name="newsletter_opt_in" type="checkbox"><span>ইমেইলে গুরুত্বপূর্ণ সংবাদ ও আপডেট পেতে চাই</span></label>
+            <button class="primary-button" type="submit">তথ্য সংরক্ষণ করুন</button>
+          </form>
+        </section>
+
+        <section class="dashboard-panel panel-card" data-view="security" hidden>
+          <div class="panel-heading"><span class="section-kicker">অ্যাকাউন্ট সুরক্ষা</span><h2>পাসওয়ার্ড পরিবর্তন</h2><p>নিয়মিত শক্তিশালী পাসওয়ার্ড ব্যবহার করুন।</p></div>
+          <form id="security-form" class="account-form security-form">
+            <label class="field">বর্তমান পাসওয়ার্ড<input name="current_password" type="password" autocomplete="current-password" required></label>
+            <label class="field">নতুন পাসওয়ার্ড<input name="new_password" type="password" autocomplete="new-password" minlength="8" required></label>
+            <label class="field">নতুন পাসওয়ার্ড নিশ্চিত করুন<input name="confirm_password" type="password" autocomplete="new-password" minlength="8" required></label>
+            <button class="primary-button" type="submit">পাসওয়ার্ড হালনাগাদ করুন</button>
+          </form>
+          <div class="security-note"><strong>ইমেইল যাচাই</strong><span id="email-verification-status">আপনার ইমেইল যাচাইয়ের অবস্থা লোড হচ্ছে…</span></div>
+        </section>
+
+        <section class="dashboard-panel panel-card" data-view="saved" hidden>
+          <div class="panel-heading"><span class="section-kicker">পরে পড়বেন</span><h2>সংরক্ষিত খবর</h2><p>যে খবরগুলো পরে পড়তে চান, সেগুলো এখানে যোগ করুন।</p></div>
+          <div id="saved-article-list" class="article-list"></div>
+        </section>
+
+        <section class="dashboard-panel panel-card" data-view="submissions" hidden>
+          <div class="panel-heading"><span class="section-kicker">পাঠকের কণ্ঠ</span><h2>খবর বা প্রতিবেদন পাঠান</h2><p>আপনার পাঠানো লেখা সম্পাদনা-পর্যালোচনার পর প্রকাশের জন্য বিবেচিত হবে।</p></div>
+          <form id="submission-form" class="account-form">
+            <div class="form-grid">
+              <label class="field field-wide">শিরোনাম <span>*</span><input name="title" type="text" minlength="5" maxlength="240" required placeholder="খবরের শিরোনাম"></label>
+              <label class="field">বিভাগ<select name="category" required><option>জাতীয়</option><option>রাজনীতি</option><option>আন্তর্জাতিক</option><option>অর্থনীতি</option><option>সারাদেশ</option><option>খেলাধুলা</option><option>বিনোদন</option><option>শিক্ষা</option><option>স্বাস্থ্য</option><option>ইসলাম</option></select></label>
+              <label class="field">ছবির লিংক (ঐচ্ছিক)<input name="image_url" type="url" placeholder="https://..."></label>
+              <label class="field field-wide">সংক্ষিপ্ত পরিচিতি<textarea name="summary" rows="3" maxlength="1200" placeholder="খবরের মূল বিষয়"></textarea></label>
+              <label class="field field-wide">পূর্ণ প্রতিবেদন <span>*</span><textarea name="body" rows="9" minlength="100" maxlength="50000" required placeholder="যাচাই করা তথ্যসহ প্রতিবেদন লিখুন"></textarea></label>
+              <label class="field field-wide">তথ্যসূত্র / নোট (ঐচ্ছিক)<textarea name="source_note" rows="2" maxlength="500" placeholder="তথ্যসূত্র বা সম্পাদকের জন্য নোট"></textarea></label>
+            </div>
+            <label class="check-row"><input name="submission_consent" type="checkbox" required><span>এই প্রতিবেদনটি আমার নিজের বা ব্যবহারের অনুমতি আছে—আমি নিশ্চিত করছি।</span></label>
+            <button class="primary-button" type="submit">পর্যালোচনার জন্য পাঠান</button>
+          </form>
+          <div class="list-divider"></div>
+          <h3 class="list-title">আমার পাঠানো প্রতিবেদন</h3>
+          <div id="submission-list" class="review-list"></div>
+        </section>
+
+        <section class="dashboard-panel panel-card" data-view="staff" hidden>
+          <div class="panel-heading"><span class="section-kicker">সংবাদ-পরিবার</span><h2>প্রতিনিধি / সংবাদকর্মী হতে আবেদন</h2><p>আবেদন যাচাই করে সম্পাদকীয় দল আপনার সঙ্গে যোগাযোগ করবে। আবেদন করলেই সম্পাদনার অনুমতি পাওয়া যায় না।</p></div>
+          <form id="staff-form" class="account-form">
+            <div class="form-grid">
+              <label class="field">পুরো নাম <span>*</span><input name="full_name" type="text" maxlength="120" required></label>
+              <label class="field">মোবাইল নম্বর <span>*</span><input name="phone" type="tel" maxlength="30" required></label>
+              <label class="field">জেলা<input name="district" type="text" maxlength="100"></label>
+              <label class="field">যে পদে আবেদন<select name="desired_role" required><option value="reporter">প্রতিনিধি / প্রতিবেদক</option><option value="photographer">ফটোসাংবাদিক</option><option value="editor">সম্পাদকীয় সহায়তা</option></select></label>
+              <label class="field field-wide">অভিজ্ঞতা<textarea name="experience" rows="3" maxlength="3000" placeholder="সাংবাদিকতা বা সংশ্লিষ্ট অভিজ্ঞতা (ঐচ্ছিক)"></textarea></label>
+              <label class="field field-wide">কাজের নমুনা / পোর্টফোলিও লিংক<input name="portfolio_url" type="url" placeholder="https://..."></label>
+              <label class="field field-wide">কেন যুক্ত হতে চান? <span>*</span><textarea name="statement" rows="4" minlength="30" maxlength="3000" required placeholder="আপনার আগ্রহ ও এলাকার সংবাদ সম্পর্কে লিখুন"></textarea></label>
+            </div>
+            <button class="primary-button" type="submit">আবেদন জমা দিন</button>
+          </form>
+          <div class="list-divider"></div>
+          <h3 class="list-title">আমার আবেদন</h3>
+          <div id="staff-application-list" class="review-list"></div>
+        </section>
+      </div>
+    </section>
+
+    <footer class="account-footer"><a href="/">ট্রিবিউন বাংলা</a><span>সত্য ও ন্যায়ের প্রতিচ্ছবি</span><a href="/terms/">ব্যবহারের শর্ত</a></footer>
+  </main>
+</body>
+</html>
