@@ -105,6 +105,33 @@
   line-height: 1.9;
 }
 
+.site-article-body {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  color: #353b42;
+  font-size: 19px;
+  line-height: 1.9;
+}
+
+.site-article-body p {
+  margin: 0 0 18px;
+}
+
+.site-cms-latest {
+  max-width: 1160px;
+  margin: 24px auto;
+  padding: 18px;
+  border: 1px solid #e6e8eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.site-cms-latest > h2 {
+  margin: 0;
+  color: #202630;
+  font-size: clamp(20px, 2.5vw, 26px);
+}
+
 .site-route-page .sub_section {
   margin-bottom: 16px;
 }

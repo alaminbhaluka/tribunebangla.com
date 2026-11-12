@@ -61,17 +61,22 @@
     try {
       const response = await fetch('/articles.json');
       if (!response.ok) throw new Error(`Article data returned ${response.status}`);
-      const records = await response.json();
+      const data = await response.json();
+      const records = data?.articles;
       if (!Array.isArray(records) || records.some((record) =>
         !record || typeof record.id !== 'string' || typeof record.path !== 'string' ||
         typeof record.title !== 'string' || typeof record.summary !== 'string' ||
-        typeof record.image !== 'string'
+        typeof record.image !== 'string' ||
+        (record.body !== undefined && typeof record.body !== 'string') ||
+        (record.status !== undefined && !['draft', 'published'].includes(record.status))
       )) {
         throw new Error('Article data has an invalid format');
       }
       articles = records;
       if (/^\/post\/\d+\/?$/.test(window.location.pathname) || window.location.pathname === '/search') {
         renderRoute();
+      } else {
+        renderLatestArticles();
       }
     } catch (error) {
       console.error('Unable to load structured article data; using homepage snapshot:', error);
@@ -152,12 +157,39 @@
     return card;
   }
 
+  function isPublished(record) {
+    return record.status !== 'draft';
+  }
+
+  function renderLatestArticles() {
+    if (!main || !['/', '/index.html'].includes(window.location.pathname)) return;
+    main.querySelector('.site-cms-latest')?.remove();
+    const existingIds = new Set([...main.querySelectorAll('a[href*="/post/"]')].map((link) => {
+      const match = new URL(link.href, root).pathname.match(postPattern);
+      return match ? match[1] : '';
+    }));
+    const latest = articles.filter((record) => isPublished(record) && !existingIds.has(record.id)).slice(0, 6);
+    if (!latest.length) return;
+
+    const section = document.createElement('section');
+    section.className = 'site-cms-latest';
+    const heading = document.createElement('h2');
+    heading.textContent = 'সর্বশেষ প্রকাশিত সংবাদ';
+    section.append(heading);
+    const list = document.createElement('div');
+    list.className = 'site-results-list';
+    latest.forEach((record) => list.append(createCard(record)));
+    section.append(list);
+    main.prepend(section);
+  }
+
   function renderSearch(query) {
     const page = createRoutePage(`অনুসন্ধান: ${query}`);
     if (!page) return;
     const needle = text(query).toLocaleLowerCase();
     const results = needle
-      ? articles.filter((record) => `${record.title} ${record.summary}`.toLocaleLowerCase().includes(needle))
+      ? articles.filter((record) => isPublished(record) &&
+        `${record.title} ${record.summary} ${record.body || ''}`.toLocaleLowerCase().includes(needle))
       : [];
     const status = document.createElement('p');
     status.className = 'site-route-status';
@@ -173,7 +205,7 @@
   }
 
   function renderArticle(id) {
-    const record = articles.find((item) => item.id === id);
+    const record = articles.find((item) => item.id === id && isPublished(item));
     const page = createRoutePage(record ? record.title : 'সংবাদটি পাওয়া যায়নি');
     if (!page) return;
     if (!record) {
@@ -193,17 +225,28 @@
       image.loading = 'eager';
       page.append(image);
     }
-    if (record.summary) {
+    if (record.summary && !record.body) {
       const summary = document.createElement('p');
       summary.className = 'site-article-summary';
       summary.textContent = record.summary;
       page.append(summary);
     }
-    const note = document.createElement('p');
-    note.className = 'site-route-note';
-    note.textContent = 'এটি হোমপেজে থাকা সংক্ষিপ্ত তথ্য। পূর্ণ প্রতিবেদন ও পুরোনো সংবাদ-আর্কাইভের জন্য মূল CMS/নিবন্ধের তথ্য প্রয়োজন।';
-    page.append(note);
-    const related = articles.filter((item) => item.id !== id).slice(0, 4);
+    if (record.body) {
+      const body = document.createElement('div');
+      body.className = 'site-article-body';
+      record.body.split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean).forEach((paragraph) => {
+        const node = document.createElement('p');
+        node.textContent = paragraph;
+        body.append(node);
+      });
+      page.append(body);
+    } else {
+      const note = document.createElement('p');
+      note.className = 'site-route-note';
+      note.textContent = 'এটি হোমপেজে থাকা সংক্ষিপ্ত তথ্য। পূর্ণ প্রতিবেদন ও পুরোনো সংবাদ-আর্কাইভের জন্য মূল CMS/নিবন্ধের তথ্য প্রয়োজন।';
+      page.append(note);
+    }
+    const related = articles.filter((item) => isPublished(item) && item.id !== id).slice(0, 4);
     if (related.length) {
       const heading = document.createElement('h2');
       heading.textContent = 'আরও সংবাদ';
@@ -274,6 +317,7 @@
         setupPhotoSlider();
         setupIslamicHub();
       }
+      renderLatestArticles();
       return;
     }
     const articleMatch = path.match(/^\/post\/(\d+)$/);
