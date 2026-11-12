@@ -71,6 +71,7 @@
         <button class="tab is-active" type="button" data-tab="submissions">জমা সংবাদ</button>
         <button class="tab" type="button" data-tab="applications">প্রতিনিধি আবেদন</button>
         <button class="tab" type="button" data-tab="articles">সাইটের নিউজ</button>
+        <button class="tab" type="button" data-tab="settings">সেটিংস</button>
       </nav>
       <section id="submissions-list" class="record-list" aria-live="polite"></section>
       <section id="applications-list" class="record-list" aria-live="polite" hidden></section>
@@ -95,9 +96,17 @@
           <label>সংক্ষিপ্ত পরিচিতি
             <textarea name="summary" rows="3" maxlength="1200"></textarea>
           </label>
-          <label>ছবির HTTPS লিংক (ঐচ্ছিক)
-            <input name="image_url" type="url" placeholder="https://...">
-          </label>
+          <div class="article-image-field">
+            <label for="article-image-file">সংবাদের ছবি</label>
+            <label class="image-upload-button" for="article-image-file">
+              <span class="image-upload-icon" aria-hidden="true">↑</span>
+              <span><strong>ছবি বেছে নিন</strong><small>JPG, PNG বা WebP · সর্বোচ্চ ৮ MB</small></span>
+              <input id="article-image-file" name="image_file" type="file" accept="image/jpeg,image/png,image/webp">
+            </label>
+            <input name="image_url" type="url" aria-label="ছবির HTTPS লিংক (ঐচ্ছিক)" placeholder="অথবা ছবির HTTPS লিংক দিন">
+            <img id="article-image-preview" class="article-image-preview" alt="নিউজের ছবির প্রিভিউ" hidden>
+            <span id="article-image-status" class="image-upload-status" role="status" aria-live="polite"></span>
+          </div>
           <label>পূর্ণ প্রতিবেদন
             <textarea name="body" rows="12" minlength="100" maxlength="50000" required></textarea>
           </label>
@@ -110,6 +119,25 @@
           </div>
         </form>
         <div id="managed-articles" class="record-list"></div>
+      </section>
+      <section id="settings-panel" class="settings-panel" hidden>
+        <div class="settings-card">
+          <span class="eyebrow">অ্যাকাউন্ট</span>
+          <h2>সম্পাদক পরিচিতি</h2>
+          <p>প্যানেলে দেখানো নাম পরিবর্তন করুন। লগইন ইমেইল ও প্রবেশাধিকার এখানে পরিবর্তন করা যাবে না।</p>
+          <form id="profile-settings-form">
+            <label>সম্পাদকের নাম
+              <input name="full_name" type="text" required maxlength="120">
+            </label>
+            <button class="primary-button" type="submit">নাম সংরক্ষণ করুন</button>
+          </form>
+        </div>
+        <div class="settings-card">
+          <span class="eyebrow">নিরাপত্তা</span>
+          <h2>পাসওয়ার্ড</h2>
+          <p>নিয়মিত পাসওয়ার্ড পরিবর্তন করুন এবং কারও সঙ্গে শেয়ার করবেন না।</p>
+          <button id="settings-password-button" class="secondary-button" type="button">পাসওয়ার্ড পরিবর্তন</button>
+        </div>
       </section>
     </section>
   </main>

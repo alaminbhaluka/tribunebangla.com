@@ -111,10 +111,27 @@ input:focus, textarea:focus, select:focus { border-color: #c7525b; box-shadow: 0
 .article-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
 .article-toolbar p { margin: 0; color: var(--muted); font-size: 13px; }
 .article-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; margin: 0 0 18px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfe; }
-.article-form h2, .article-form label:first-of-type, .article-form label:nth-of-type(3), .article-form label:nth-of-type(5), .article-form label:nth-of-type(6), .article-form .password-actions { grid-column: 1 / -1; }
+.article-form h2, .article-form > label:first-of-type, .article-form > label:nth-of-type(3), .article-form > label:nth-of-type(4), .article-form > label:nth-of-type(5), .article-form .password-actions { grid-column: 1 / -1; }
 .article-form h2 { margin: 0; font-size: 19px; }
 .article-form textarea { min-height: 90px; }
-.article-form label:nth-of-type(5) textarea { min-height: 260px; }
+.article-form > label:nth-of-type(4) textarea { min-height: 260px; }
+.article-image-field { display: grid; grid-column: 1 / -1; gap: 8px; }
+.article-image-field > label:first-child { color: #404854; font-size: 13px; font-weight: 700; }
+.image-upload-button { display: flex; min-height: 88px; align-items: center; gap: 12px; padding: 14px; border: 1px dashed #cbd3df; border-radius: 11px; background: #fff; cursor: pointer; transition: border-color .2s, background .2s; }
+.image-upload-button:hover, .image-upload-button:focus-within { border-color: var(--red); background: #fffafb; }
+.image-upload-button strong, .image-upload-button small { display: block; }
+.image-upload-button strong { color: var(--red); font-size: 14px; }
+.image-upload-button small { margin-top: 2px; color: var(--muted); font-size: 11px; font-weight: 500; }
+.image-upload-button input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+.image-upload-icon { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border-radius: 50%; background: #f9e9ea; color: var(--red); font-size: 25px; font-weight: 600; }
+.article-image-preview { display: block; width: min(100%, 520px); max-height: 260px; border: 1px solid var(--line); border-radius: 10px; object-fit: cover; }
+.image-upload-status { min-height: 0; color: var(--muted); font-size: 12px; }
+.image-upload-status[data-error="true"] { color: #a31420; }
+.settings-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.settings-card { padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfe; }
+.settings-card h2 { margin: 4px 0; font-size: 19px; }
+.settings-card p { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+.settings-card form { margin-top: 14px; }
 .empty-state { padding: 28px 16px; border: 1px dashed #d9dee8; border-radius: 10px; color: var(--muted); text-align: center; }
 .pill { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 20px; background: #f1f3f6; color: #555d68; font-size: 11px; font-weight: 800; }
 .pill[data-status="pending"] { background: #fff2d6; color: #916200; }
@@ -138,7 +155,8 @@ input:focus, textarea:focus, select:focus { border-color: #c7525b; box-shadow: 0
   .publish-button { width: 100%; }
   .article-toolbar { align-items: flex-start; flex-direction: column; }
   .article-form { grid-template-columns: 1fr; }
-  .article-form h2, .article-form label:first-of-type, .article-form label:nth-of-type(3), .article-form label:nth-of-type(5), .article-form label:nth-of-type(6), .article-form .password-actions { grid-column: auto; }
+  .article-form h2, .article-form > label:first-of-type, .article-form > label:nth-of-type(3), .article-form > label:nth-of-type(4), .article-form > label:nth-of-type(5), .article-form .password-actions, .article-image-field { grid-column: auto; }
+  .settings-panel { grid-template-columns: 1fr; }
   .tabs { gap: 2px; }
   .tab { padding: 8px 9px; font-size: 12px; }
 }

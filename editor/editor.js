@@ -14,11 +14,17 @@
   const submissionsList = byId('submissions-list');
   const applicationsList = byId('applications-list');
   const articlesList = byId('articles-list');
+  const settingsPanel = byId('settings-panel');
   const managedArticles = byId('managed-articles');
   const articleForm = byId('article-form');
+  const profileSettingsForm = byId('profile-settings-form');
+  const articleImageInput = byId('article-image-file');
+  const articleImagePreview = byId('article-image-preview');
+  const articleImageStatus = byId('article-image-status');
   const passwordForm = byId('password-form');
   let activeUserId = '';
   let activeTab = 'submissions';
+  let activeEditorRole = '';
 
   function setStatus(node, message, kind = '') {
     node.textContent = message;
@@ -30,6 +36,8 @@
     const message = error?.message || '';
     if (/invalid login credentials/i.test(message)) return 'ইমেইল বা পাসওয়ার্ড সঠিক নয়।';
     if (/email not confirmed/i.test(message)) return 'ইমেইল আমন্ত্রণ গ্রহণ করে যাচাই সম্পন্ন করুন।';
+    if (/bucket not found/i.test(message)) return 'ছবি সংরক্ষণের স্টোরেজ এখনো সেটআপ হয়নি। আপাতত ছবির HTTPS লিংক ব্যবহার করুন।';
+    if (/row-level security|not authorized|unauthorized/i.test(message)) return 'ছবি আপলোডের অনুমতি নেই। স্টোরেজের সম্পাদকীয় নীতি যাচাই করুন।';
     return message || 'অনুরোধটি সম্পন্ন হয়নি। আবার চেষ্টা করুন।';
   }
 
@@ -297,6 +305,10 @@
 
   function startNewArticle() {
     articleForm.reset();
+    articleImagePreview.hidden = true;
+    articleImagePreview.removeAttribute('src');
+    articleImageStatus.textContent = '';
+    articleImageStatus.dataset.error = 'false';
     articleForm.elements.namedItem('id').value = '';
     articleForm.elements.namedItem('status').value = 'draft';
     byId('article-form-heading').textContent = 'নতুন নিউজ লিখুন';
@@ -312,6 +324,9 @@
     articleForm.elements.namedItem('image_url').value = record.image_url || '';
     articleForm.elements.namedItem('body').value = record.body || '';
     articleForm.elements.namedItem('status').value = record.status || 'draft';
+    articleImagePreview.src = safeHttpsUrl(record.image_url) || '';
+    articleImagePreview.hidden = !articleImagePreview.src;
+    articleImageStatus.textContent = record.image_url ? 'বর্তমান ছবিটি রাখা হবে। নতুন ছবি দিলে এটি বদলে যাবে।' : '';
     byId('article-form-heading').textContent = `সংবাদ নম্বর ${record.id} সম্পাদনা`;
     articleForm.hidden = false;
     articleForm.elements.namedItem('title').focus();
@@ -336,53 +351,8 @@
         await loadManagedArticles();
         return;
       }
+      if (activeTab === 'settings') return;
 
-      articleForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const values = Object.fromEntries(new FormData(articleForm).entries());
-        const imageInput = String(values.image_url || '').trim();
-        const imageUrl = imageInput ? safeHttpsUrl(imageInput) : null;
-        if (imageInput && !imageUrl) {
-          setStatus(editorStatus, 'ছবির লিংকটি HTTPS ঠিকানা হতে হবে।', 'error');
-          return;
-        }
-        const payload = {
-          title: String(values.title).trim(),
-          summary: String(values.summary || '').trim(),
-          body: String(values.body).trim(),
-          category: String(values.category),
-          image_url: imageUrl,
-          status: String(values.status),
-          updated_at: new Date().toISOString()
-        };
-        const id = String(values.id || '').trim();
-        const button = articleForm.querySelector('[type="submit"]');
-        const label = button.textContent;
-        button.disabled = true;
-        button.textContent = 'সংরক্ষণ হচ্ছে…';
-        try {
-          const request = id
-            ? client.from('news_articles').update(payload).eq('id', id)
-            : client.from('news_articles').insert({ ...payload, created_by: activeUserId });
-          const { error } = await request;
-          if (error) throw error;
-          articleForm.hidden = true;
-          await loadManagedArticles();
-          setStatus(editorStatus, payload.status === 'published' ? 'নিউজ সংরক্ষণ করে সাইটে প্রকাশ করা হয়েছে।' : 'নিউজের খসড়া সংরক্ষণ করা হয়েছে।', 'success');
-        } catch (error) {
-          console.error('Unable to save editorial article:', error);
-          setStatus(editorStatus, friendlyError(error), 'error');
-        } finally {
-          button.disabled = false;
-          button.textContent = label;
-        }
-      });
-
-      byId('new-article-button').addEventListener('click', startNewArticle);
-      byId('cancel-article-button').addEventListener('click', () => {
-        articleForm.reset();
-        articleForm.hidden = true;
-      });
       const applications = activeTab === 'applications';
       await loadRecords(
         applications ? 'staff_applications' : 'article_submissions',
@@ -398,6 +368,119 @@
       list.replaceChildren(emptyState('তালিকা লোড করা যায়নি।'));
     }
   }
+
+  articleImageInput.addEventListener('change', () => {
+    const file = articleImageInput.files[0];
+    articleImageStatus.textContent = '';
+    articleImageStatus.dataset.error = 'false';
+    if (!file) return;
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      articleImageInput.value = '';
+      setStatus(articleImageStatus, 'JPG, PNG অথবা WebP ছবি বেছে নিন।', 'error');
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      articleImageInput.value = '';
+      setStatus(articleImageStatus, 'ছবির আকার ৮ MB-এর মধ্যে হতে হবে।', 'error');
+      return;
+    }
+    articleForm.elements.namedItem('image_url').value = '';
+    articleImagePreview.src = URL.createObjectURL(file);
+    articleImagePreview.hidden = false;
+    articleImageStatus.textContent = `${file.name} · আপলোডের জন্য প্রস্তুত`;
+  });
+
+  profileSettingsForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const name = String(new FormData(profileSettingsForm).get('full_name') || '').trim();
+    const button = profileSettingsForm.querySelector('[type="submit"]');
+    button.disabled = true;
+    try {
+      const { error } = await client.from('profiles')
+        .update({ full_name: name })
+        .eq('id', activeUserId);
+      if (error) throw error;
+      byId('editor-identity').textContent = `${name} · ${activeEditorRole === 'admin' ? 'প্রধান সম্পাদক' : 'সম্পাদক'}`;
+      setStatus(editorStatus, 'সম্পাদকের নাম সংরক্ষণ হয়েছে।', 'success');
+    } catch (error) {
+      console.error('Unable to update editor profile:', error);
+      setStatus(editorStatus, friendlyError(error), 'error');
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  byId('settings-password-button').addEventListener('click', () => {
+    passwordForm.hidden = false;
+    passwordForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    passwordForm.elements.namedItem('password').focus();
+  });
+
+  articleForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(articleForm).entries());
+    const imageInput = String(values.image_url || '').trim();
+    let imageUrl = imageInput ? safeHttpsUrl(imageInput) : null;
+    if (imageInput && !imageUrl) {
+      setStatus(editorStatus, 'ছবির লিংকটি HTTPS ঠিকানা হতে হবে।', 'error');
+      return;
+    }
+    const file = articleImageInput.files[0];
+    if (file && (file.size > 8 * 1024 * 1024 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type))) {
+      setStatus(articleImageStatus, 'JPG, PNG অথবা WebP ছবি ৮ MB-এর মধ্যে বেছে নিন।', 'error');
+      return;
+    }
+    const button = articleForm.querySelector('[type="submit"]');
+    const label = button.textContent;
+    button.disabled = true;
+    button.textContent = file ? 'ছবি আপলোড হচ্ছে…' : 'সংরক্ষণ হচ্ছে…';
+    try {
+      if (file) {
+        const extension = ({ 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' })[file.type];
+        const path = `${activeUserId}/${crypto.randomUUID()}.${extension}`;
+        const { error: uploadError } = await client.storage.from('news-images').upload(path, file, {
+          cacheControl: '3600',
+          contentType: file.type,
+          upsert: false
+        });
+        if (uploadError) throw uploadError;
+        imageUrl = client.storage.from('news-images').getPublicUrl(path).data.publicUrl;
+      }
+      const payload = {
+        title: String(values.title).trim(),
+        summary: String(values.summary || '').trim(),
+        body: String(values.body).trim(),
+        category: String(values.category),
+        image_url: imageUrl,
+        status: String(values.status),
+        updated_at: new Date().toISOString()
+      };
+      const id = String(values.id || '').trim();
+      button.textContent = 'সংরক্ষণ হচ্ছে…';
+      const request = id
+        ? client.from('news_articles').update(payload).eq('id', id)
+        : client.from('news_articles').insert({ ...payload, created_by: activeUserId });
+      const { error } = await request;
+      if (error) throw error;
+      articleForm.hidden = true;
+      await loadManagedArticles();
+      setStatus(editorStatus, payload.status === 'published' ? 'নিউজ সংরক্ষণ করে সাইটে প্রকাশ করা হয়েছে।' : 'নিউজের খসড়া সংরক্ষণ করা হয়েছে।', 'success');
+    } catch (error) {
+      console.error('Unable to save editorial article:', error);
+      setStatus(editorStatus, friendlyError(error), 'error');
+    } finally {
+      button.disabled = false;
+      button.textContent = label;
+    }
+  });
+
+  byId('new-article-button').addEventListener('click', startNewArticle);
+  byId('cancel-article-button').addEventListener('click', () => {
+    articleForm.reset();
+    articleForm.hidden = true;
+    articleImagePreview.hidden = true;
+    articleImageStatus.textContent = '';
+  });
 
   async function showEditor(user) {
     if (activeUserId === user.id) return;
@@ -418,6 +501,8 @@
         loginPanel.hidden = false;
         throw new Error('এই অ্যাকাউন্টে সম্পাদকীয় প্রবেশাধিকার নেই।');
       }
+      activeEditorRole = data.role;
+      profileSettingsForm.elements.namedItem('full_name').value = data.full_name || '';
       byId('editor-identity').textContent = `${data.full_name || user.email} · ${data.role === 'admin' ? 'প্রধান সম্পাদক' : 'সম্পাদক'}`;
       setStatus(editorStatus, '');
       await loadCurrentTab();
@@ -442,6 +527,7 @@
       submissionsList.hidden = activeTab !== 'submissions';
       applicationsList.hidden = activeTab !== 'applications';
       articlesList.hidden = activeTab !== 'articles';
+      settingsPanel.hidden = activeTab !== 'settings';
       void loadCurrentTab();
     });
   });
