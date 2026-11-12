@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>সংবাদ ব্যবস্থাপনা | ট্রিবিউন বাংলা</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+  <script src="/admin/admin.js" defer></script>
+</head>
+<body>
+  <main class="cms-shell">
+    <header class="cms-header">
+      <a class="cms-brand" href="/">ট্রিবিউন বাংলা</a>
+      <span>সংবাদ ব্যবস্থাপনা</span>
+    </header>
+
+    <section id="login-panel" class="cms-panel">
+      <h1>সংবাদ ব্যবস্থাপনায় প্রবেশ</h1>
+      <p>আপনার অনুমোদিত GitHub অ্যাকাউন্ট দিয়ে প্রবেশ করুন। প্রবেশের অনুমতি ছাড়া কোনো খবর পরিবর্তন করা যাবে না।</p>
+      <button id="login-button" class="primary-button" type="button">GitHub দিয়ে প্রবেশ করুন</button>
+      <div id="device-instructions" class="device-instructions" hidden>
+        <p>GitHub-এ নিচের কোডটি অনুমোদন করুন:</p>
+        <strong id="device-code" class="device-code"></strong>
+        <a id="device-link" target="_blank" rel="noopener noreferrer">GitHub অনুমোদন পাতা খুলুন</a>
+        <p id="device-status" role="status" aria-live="polite"></p>
+      </div>
+      <p id="login-status" class="status-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="editor-panel" class="cms-panel" hidden>
+      <div class="editor-heading">
+        <div>
+          <h1>খবর সম্পাদনা</h1>
+          <p>প্রকাশিত খবর সাইটে দেখা যাবে; খসড়া শুধু এখানে থাকবে।</p>
+        </div>
+        <button id="logout-button" class="secondary-button" type="button">বের হন</button>
+      </div>
+      <div class="editor-layout">
+        <aside class="article-sidebar">
+          <button id="new-article-button" class="primary-button" type="button">নতুন খবর লিখুন</button>
+          <label for="article-filter">খবর খুঁজুন</label>
+          <input id="article-filter" type="search" placeholder="শিরোনাম লিখুন">
+          <div id="article-list" class="article-list"></div>
+        </aside>
+        <form id="article-form" class="article-form">
+          <p id="save-status" class="status-message" role="status" aria-live="polite"></p>
+          <label for="article-title">শিরোনাম <span>*</span></label>
+          <input id="article-title" type="text" required maxlength="240">
+
+          <label for="article-summary">সংক্ষিপ্ত পরিচিতি</label>
+          <textarea id="article-summary" rows="3" maxlength="1000"></textarea>
+
+          <label for="article-body">পূর্ণ প্রতিবেদন</label>
+          <textarea id="article-body" rows="12" placeholder="প্রতিবেদনের লেখা এখানে লিখুন"></textarea>
+
+          <label for="article-image">ছবির URL (ঐচ্ছিক)</label>
+          <input id="article-image" type="url" placeholder="https://...">
+
+          <label for="article-category">বিভাগ</label>
+          <select id="article-category">
+            <option value="জাতীয়">জাতীয়</option>
+            <option value="রাজনীতি">রাজনীতি</option>
+            <option value="আন্তর্জাতিক">আন্তর্জাতিক</option>
+            <option value="অর্থনীতি">অর্থনীতি</option>
+            <option value="সারাদেশ">সারাদেশ</option>
+            <option value="খেলাধুলা">খেলাধুলা</option>
+            <option value="বিনোদন">বিনোদন</option>
+            <option value="শিক্ষা">শিক্ষা</option>
+            <option value="স্বাস্থ্য">স্বাস্থ্য</option>
+            <option value="ইসলাম">ইসলাম</option>
+          </select>
+
+          <label for="article-status">অবস্থা</label>
+          <select id="article-status">
+            <option value="draft">খসড়া</option>
+            <option value="published">প্রকাশিত</option>
+          </select>
+
+          <button id="save-button" class="primary-button" type="submit">সংরক্ষণ করুন</button>
+          <p class="editor-note">সংরক্ষণ করলে GitHub-এ পরিবর্তন জমা হবে; সাইটে প্রকাশ হতে সাধারণত ১–২ মিনিট লাগতে পারে।</p>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
