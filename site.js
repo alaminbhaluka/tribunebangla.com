@@ -2,6 +2,8 @@
   'use strict';
 
   const main = document.querySelector('.PrimeItWorld_main');
+  const SUPABASE_URL = 'https://rvffsavdvetdmhnwgivz.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_K4ir8_k1DY9EOhoC-wUT8A_8r01CJxu';
   const homeMarkup = main?.innerHTML || '';
   const homeTitle = document.title;
   let routeRendered = false;
@@ -73,6 +75,34 @@
         throw new Error('Article data has an invalid format');
       }
       articles = records;
+      try {
+        const databaseResponse = await fetch(
+          `${SUPABASE_URL}/rest/v1/news_articles?select=id,title,summary,body,image_url,category,status&status=eq.published&order=created_at.desc`,
+          {
+            headers: {
+              apikey: SUPABASE_PUBLISHABLE_KEY,
+              Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+            },
+            cache: 'no-store'
+          }
+        );
+        if (!databaseResponse.ok) throw new Error(`Published news returned ${databaseResponse.status}`);
+        const databaseRecords = await databaseResponse.json();
+        if (!Array.isArray(databaseRecords)) throw new Error('Published news has an invalid format');
+        const published = databaseRecords.map((record) => ({
+          id: String(record.id),
+          path: `/post/${record.id}/`,
+          title: record.title,
+          summary: record.summary || '',
+          body: record.body || '',
+          image: record.image_url || '',
+          category: record.category || '',
+          status: record.status
+        }));
+        articles = [...published, ...records];
+      } catch (error) {
+        console.error('Unable to load published database news; keeping static articles:', error);
+      }
       if (/^\/post\/\d+\/?$/.test(window.location.pathname) || window.location.pathname === '/search') {
         renderRoute();
       } else {
@@ -296,6 +326,18 @@
       page.append(message);
     } else {
       content.forEach((item) => page.append(item));
+    }
+    const categoryArticles = articles.filter((record) =>
+      isPublished(record) && record.category === title
+    );
+    if (categoryArticles.length) {
+      const heading = document.createElement('h2');
+      heading.textContent = 'সাম্প্রতিক সংবাদ';
+      page.append(heading);
+      const list = document.createElement('div');
+      list.className = 'site-results-list';
+      categoryArticles.forEach((record) => list.append(createCard(record)));
+      page.append(list);
     }
     addHomeLink(page);
   }
