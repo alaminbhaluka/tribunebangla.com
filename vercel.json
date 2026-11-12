@@ -5,6 +5,7 @@
     { "source": "/admin/:path*", "destination": "/editor", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/github-cms", "destination": "/admin/index.html" },
     { "source": "/account", "destination": "/account/index.html" },
     { "source": "/editor", "destination": "/editor/index.html" },
     { "source": "/register", "destination": "/account/index.html?view=register" },
