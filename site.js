@@ -55,7 +55,28 @@
     return [...records.values()];
   }
 
-  const articles = collectArticles();
+  let articles = collectArticles();
+
+  async function loadArticleRecords() {
+    try {
+      const response = await fetch('/articles.json');
+      if (!response.ok) throw new Error(`Article data returned ${response.status}`);
+      const records = await response.json();
+      if (!Array.isArray(records) || records.some((record) =>
+        !record || typeof record.id !== 'string' || typeof record.path !== 'string' ||
+        typeof record.title !== 'string' || typeof record.summary !== 'string' ||
+        typeof record.image !== 'string'
+      )) {
+        throw new Error('Article data has an invalid format');
+      }
+      articles = records;
+      if (/^\/post\/\d+\/?$/.test(window.location.pathname) || window.location.pathname === '/search') {
+        renderRoute();
+      }
+    } catch (error) {
+      console.error('Unable to load structured article data; using homepage snapshot:', error);
+    }
+  }
 
   function loadDeferredImages(scope = document) {
     scope.querySelectorAll('img').forEach((image) => {
@@ -526,5 +547,6 @@
   setupPhotoSlider();
   loadDeferredImages();
   setupIslamicHub();
+  loadArticleRecords();
   window.addEventListener('popstate', renderRoute);
 })();
