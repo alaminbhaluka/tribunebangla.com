@@ -11,6 +11,7 @@
   const loginForm = byId('login-form');
   const loginStatus = byId('login-status');
   const editorStatus = byId('editor-status');
+  const dashboardPanel = byId('dashboard-panel');
   const submissionsList = byId('submissions-list');
   const applicationsList = byId('applications-list');
   const articlesList = byId('articles-list');
@@ -23,7 +24,7 @@
   const articleImageStatus = byId('article-image-status');
   const passwordForm = byId('password-form');
   let activeUserId = '';
-  let activeTab = 'submissions';
+  let activeTab = 'overview';
   let activeEditorRole = '';
 
   function setStatus(node, message, kind = '') {
@@ -344,9 +345,122 @@
     list.replaceChildren(...data.map((record) => renderer(record, profiles.get(record.user_id))));
   }
 
+  async function loadDashboardMetric(countId, noteId, table, status) {
+    const countNode = byId(countId);
+    const noteNode = byId(noteId);
+    const card = countNode.closest('.dashboard-stat');
+    card.dataset.state = 'loading';
+    countNode.textContent = '—';
+    noteNode.textContent = 'তথ্য লোড হচ্ছে…';
+
+    try {
+      let query = client.from(table).select('id', { count: 'exact', head: true });
+      if (status) query = query.eq('status', status);
+      const { count, error } = await query;
+      if (error) throw error;
+      if (typeof count !== 'number') throw new Error('তথ্যের সংখ্যা পাওয়া যায়নি।');
+      countNode.textContent = count.toLocaleString('bn-BD');
+      noteNode.textContent = 'ডেটাবেস থেকে হালনাগাদ';
+      card.dataset.state = 'ok';
+    } catch (error) {
+      console.error(`Unable to load ${table} dashboard count:`, error);
+      countNode.textContent = '—';
+      noteNode.textContent = friendlyError(error);
+      card.dataset.state = 'error';
+    }
+  }
+
+  async function runHealthCheck(cardId, check) {
+    const card = byId(cardId);
+    const state = card.querySelector('.health-state');
+    const detail = card.querySelector('.health-detail');
+    card.dataset.state = 'loading';
+    state.textContent = 'পরীক্ষা হচ্ছে…';
+    detail.textContent = '';
+
+    try {
+      detail.textContent = await check();
+      state.textContent = 'সচল';
+      card.dataset.state = 'ok';
+    } catch (error) {
+      console.error(`Dashboard health check failed (${cardId}):`, error);
+      state.textContent = 'সমস্যা';
+      detail.textContent = friendlyError(error);
+      card.dataset.state = 'error';
+    }
+  }
+
+  async function loadDashboardOverview() {
+    const refreshButton = byId('refresh-dashboard-button');
+    refreshButton.disabled = true;
+    try {
+      await Promise.all([
+        loadDashboardMetric('pending-submissions-count', 'pending-submissions-note', 'article_submissions', 'pending'),
+        loadDashboardMetric('pending-applications-count', 'pending-applications-note', 'staff_applications', 'pending'),
+        loadDashboardMetric('published-articles-count', 'published-articles-note', 'news_articles', 'published'),
+        loadDashboardMetric('draft-articles-count', 'draft-articles-note', 'news_articles', 'draft'),
+        runHealthCheck('health-homepage', async () => {
+          const response = await fetch('/', { cache: 'no-store' });
+          if (!response.ok) throw new Error(`মূল সাইট HTTP ${response.status}`);
+          return `HTTP ${response.status} · ${new URL(response.url).host}`;
+        }),
+        runHealthCheck('health-admin-route', async () => {
+          const response = await fetch('/admin', { cache: 'no-store' });
+          const path = new URL(response.url).pathname.replace(/\/+$/, '');
+          if (!response.ok || path !== '/editor') {
+            throw new Error(`/admin রুট /editor-এ পৌঁছায়নি (HTTP ${response.status})`);
+          }
+          return '/admin → /editor ঠিক আছে';
+        }),
+        runHealthCheck('health-news-feed', async () => {
+          const response = await fetch(`/articles.json?check=${Date.now()}`, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`নিউজ ফিড HTTP ${response.status}`);
+          const data = await response.json();
+          if (!Array.isArray(data?.articles)) throw new Error('নিউজ ফিডের গঠন সঠিক নয়।');
+          return `${data.articles.length.toLocaleString('bn-BD')}টি স্থির নিউজ রেকর্ড`;
+        }),
+        runHealthCheck('health-database', async () => {
+          const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/news_articles?select=id&status=eq.published&limit=1`,
+            {
+              headers: {
+                apikey: SUPABASE_PUBLISHABLE_KEY,
+                Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+              },
+              cache: 'no-store'
+            }
+          );
+          if (!response.ok) throw new Error(`প্রকাশিত নিউজ API HTTP ${response.status}`);
+          const records = await response.json();
+          if (!Array.isArray(records)) throw new Error('প্রকাশিত নিউজ API-র উত্তর সঠিক নয়।');
+          return records.length ? 'Supabase সংযোগ ও public read ঠিক আছে' : 'সংযোগ ঠিক আছে · এখনো প্রকাশিত নিউজ নেই';
+        }),
+        runHealthCheck('health-editor-access', async () => {
+          const { data, error } = await client.from('profiles')
+            .select('role')
+            .eq('id', activeUserId)
+            .maybeSingle();
+          if (error) throw error;
+          if (!data || !['admin', 'editor'].includes(data.role)) {
+            throw new Error('সম্পাদকীয় অনুমতি যাচাই হয়নি।');
+          }
+          return `${data.role === 'admin' ? 'প্রধান সম্পাদক' : 'সম্পাদক'} অনুমতি সক্রিয়`;
+        })
+      ]);
+      byId('dashboard-updated-at').textContent =
+        `শেষ পরীক্ষা: ${new Date().toLocaleTimeString('bn-BD')}`;
+    } finally {
+      refreshButton.disabled = false;
+    }
+  }
+
   async function loadCurrentTab() {
     setStatus(editorStatus, '');
     try {
+      if (activeTab === 'overview') {
+        await loadDashboardOverview();
+        return;
+      }
       if (activeTab === 'articles') {
         await loadManagedArticles();
         return;
@@ -365,7 +479,7 @@
       setStatus(editorStatus, 'তথ্য লোড করা যায়নি। অনুমতি বা সংযোগ যাচাই করে আবার চেষ্টা করুন।', 'error');
       const list = activeTab === 'applications' ? applicationsList :
         activeTab === 'articles' ? managedArticles : submissionsList;
-      list.replaceChildren(emptyState('তালিকা লোড করা যায়নি।'));
+      if (activeTab !== 'overview') list.replaceChildren(emptyState('তালিকা লোড করা যায়নি।'));
     }
   }
 
@@ -475,6 +589,9 @@
   });
 
   byId('new-article-button').addEventListener('click', startNewArticle);
+  byId('refresh-dashboard-button').addEventListener('click', () => {
+    void loadCurrentTab();
+  });
   byId('cancel-article-button').addEventListener('click', () => {
     articleForm.reset();
     articleForm.hidden = true;
@@ -525,6 +642,7 @@
       activeTab = button.dataset.tab;
       document.querySelectorAll('[data-tab]').forEach((tab) => tab.classList.toggle('is-active', tab === button));
       submissionsList.hidden = activeTab !== 'submissions';
+      dashboardPanel.hidden = activeTab !== 'overview';
       applicationsList.hidden = activeTab !== 'applications';
       articlesList.hidden = activeTab !== 'articles';
       settingsPanel.hidden = activeTab !== 'settings';

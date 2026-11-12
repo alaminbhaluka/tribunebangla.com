@@ -67,13 +67,119 @@
         </div>
       </form>
 
-      <nav class="tabs" aria-label="পর্যালোচনার তালিকা">
-        <button class="tab is-active" type="button" data-tab="submissions">জমা সংবাদ</button>
+      <nav class="tabs" aria-label="অ্যাডমিন ড্যাশবোর্ড ও ব্যবস্থাপনা">
+        <button class="tab is-active" type="button" data-tab="overview">ড্যাশবোর্ড</button>
+        <button class="tab" type="button" data-tab="submissions">জমা সংবাদ</button>
         <button class="tab" type="button" data-tab="applications">প্রতিনিধি আবেদন</button>
         <button class="tab" type="button" data-tab="articles">সাইটের নিউজ</button>
         <button class="tab" type="button" data-tab="settings">সেটিংস</button>
       </nav>
-      <section id="submissions-list" class="record-list" aria-live="polite"></section>
+      <section id="dashboard-panel" class="dashboard-panel" aria-live="polite">
+        <div class="dashboard-heading">
+          <div>
+            <span class="eyebrow">এক নজরে সাইট</span>
+            <h2>প্রশাসনিক ড্যাশবোর্ড</h2>
+            <p>জরুরি অবস্থা, জমা সংবাদ ও প্রকাশনার অবস্থা এখান থেকে দেখুন।</p>
+          </div>
+          <button id="refresh-dashboard-button" class="secondary-button" type="button">অবস্থা হালনাগাদ</button>
+        </div>
+        <div class="dashboard-stats">
+          <article class="dashboard-stat" data-state="loading">
+            <span>পর্যালোচনাধীন সংবাদ</span>
+            <strong id="pending-submissions-count">—</strong>
+            <small id="pending-submissions-note">তথ্য লোড হচ্ছে…</small>
+          </article>
+          <article class="dashboard-stat" data-state="loading">
+            <span>প্রতিনিধি আবেদন</span>
+            <strong id="pending-applications-count">—</strong>
+            <small id="pending-applications-note">তথ্য লোড হচ্ছে…</small>
+          </article>
+          <article class="dashboard-stat" data-state="loading">
+            <span>প্রকাশিত সংবাদ</span>
+            <strong id="published-articles-count">—</strong>
+            <small id="published-articles-note">তথ্য লোড হচ্ছে…</small>
+          </article>
+          <article class="dashboard-stat" data-state="loading">
+            <span>খসড়া সংবাদ</span>
+            <strong id="draft-articles-count">—</strong>
+            <small id="draft-articles-note">তথ্য লোড হচ্ছে…</small>
+          </article>
+        </div>
+
+        <section class="health-section" aria-labelledby="health-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="health-heading">সাইটের স্বাস্থ্য পরীক্ষা</h2>
+              <p>সাইট, নিউজ ডেটা ও সম্পাদকীয় অনুমতি সচল কি না যাচাই করুন।</p>
+            </div>
+            <span id="dashboard-updated-at" class="muted-label"></span>
+          </div>
+          <div class="health-grid">
+            <article id="health-homepage" class="health-card" data-state="loading">
+              <span>মূল সাইট</span>
+              <strong class="health-state">পরীক্ষা হচ্ছে…</strong>
+              <small class="health-detail"></small>
+            </article>
+            <article id="health-admin-route" class="health-card" data-state="loading">
+              <span>অ্যাডমিন রুট</span>
+              <strong class="health-state">পরীক্ষা হচ্ছে…</strong>
+              <small class="health-detail"></small>
+            </article>
+            <article id="health-news-feed" class="health-card" data-state="loading">
+              <span>নিউজ ডেটা</span>
+              <strong class="health-state">পরীক্ষা হচ্ছে…</strong>
+              <small class="health-detail"></small>
+            </article>
+            <article id="health-database" class="health-card" data-state="loading">
+              <span>প্রকাশিত নিউজ API</span>
+              <strong class="health-state">পরীক্ষা হচ্ছে…</strong>
+              <small class="health-detail"></small>
+            </article>
+            <article id="health-editor-access" class="health-card" data-state="loading">
+              <span>সম্পাদকীয় অনুমতি</span>
+              <strong class="health-state">পরীক্ষা হচ্ছে…</strong>
+              <small class="health-detail"></small>
+            </article>
+          </div>
+        </section>
+
+        <section class="operations-section" aria-labelledby="operations-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="operations-heading">দ্রুত অপারেশন</h2>
+              <p>কনটেন্ট, হোস্টিং ও ডেটাবেসের নির্দিষ্ট ব্যবস্থাপনা পাতা খুলুন।</p>
+            </div>
+          </div>
+          <div class="operations-grid">
+            <a class="operation-card" href="/github-cms">
+              <strong>পুরোনো নিউজ CMS</strong>
+              <span>GitHub-এ সংরক্ষিত সাইটের নিউজ সম্পাদনা</span>
+            </a>
+            <a class="operation-card" href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer">
+              <strong>হোস্টিং ও Deploy</strong>
+              <span>Deploy status ও hosting settings</span>
+            </a>
+            <a class="operation-card" href="https://supabase.com/dashboard/project/rvffsavdvetdmhnwgivz/auth/users" target="_blank" rel="noopener noreferrer">
+              <strong>অ্যাকাউন্ট</strong>
+              <span>Supabase Auth ব্যবহারকারী ব্যবস্থাপনা</span>
+            </a>
+            <a class="operation-card" href="https://supabase.com/dashboard/project/rvffsavdvetdmhnwgivz/storage/files/policies" target="_blank" rel="noopener noreferrer">
+              <strong>ছবি ও Storage</strong>
+              <span>ছবি, বালতি ও upload policy</span>
+            </a>
+            <a class="operation-card" href="https://supabase.com/dashboard/project/rvffsavdvetdmhnwgivz/sql" target="_blank" rel="noopener noreferrer">
+              <strong>ডেটাবেস</strong>
+              <span>Supabase SQL Editor ও ডেটাবেস পরীক্ষা</span>
+            </a>
+            <a class="operation-card" href="https://github.com/alaminbhaluka/tribunebangla.com" target="_blank" rel="noopener noreferrer">
+              <strong>সাইটের কোড</strong>
+              <span>GitHub repository ও source changes</span>
+            </a>
+          </div>
+          <p class="operations-note">সংবেদনশীল ডেটাবেস, deploy বা restore কাজ সংশ্লিষ্ট অনুমোদিত dashboard-এ করুন। এই প্যানেলে কোনো secret key রাখা হয় না।</p>
+        </section>
+      </section>
+      <section id="submissions-list" class="record-list" aria-live="polite" hidden></section>
       <section id="applications-list" class="record-list" aria-live="polite" hidden></section>
       <section id="articles-list" class="article-management" hidden>
         <div class="article-toolbar">
