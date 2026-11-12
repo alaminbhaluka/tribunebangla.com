@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#a51f2b">
+  <title>সম্পাদকীয় প্যানেল | ট্রিবিউন বাংলা</title>
+  <link rel="icon" href="/Logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="/editor/editor.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/editor/editor.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/Logo.jpg" alt="">
+      <span>ট্রিবিউন বাংলা<small>সম্পাদকীয় প্যানেল</small></span>
+    </a>
+    <a class="home-link" href="/">মূল সাইটে ফিরুন</a>
+  </header>
+
+  <main class="page">
+    <section id="login-panel" class="login-card">
+      <span class="eyebrow">শুধু অনুমোদিত সম্পাদকদের জন্য</span>
+      <h1>সম্পাদকীয় লগইন</h1>
+      <p class="intro">প্রধান সম্পাদক বা অনুমোদিত সম্পাদকীয় অ্যাকাউন্ট দিয়ে প্রবেশ করুন।</p>
+      <p id="login-status" class="notice" role="status" aria-live="polite"></p>
+      <form id="login-form">
+        <label>ইমেইল
+          <input name="email" type="email" autocomplete="username" required maxlength="254" placeholder="editor@example.com">
+        </label>
+        <label>পাসওয়ার্ড
+          <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button id="login-button" class="primary-button" type="submit">নিরাপদে প্রবেশ করুন</button>
+      </form>
+      <button id="reset-button" class="text-button" type="button">পাসওয়ার্ড ভুলে গেছেন?</button>
+      <p class="security-note">পাঠক অ্যাকাউন্টে নিবন্ধন করলেই সম্পাদকীয় প্রবেশাধিকার পাওয়া যায় না।</p>
+    </section>
+
+    <section id="editor-panel" class="editor-panel" hidden>
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">সম্পাদকীয় ডেস্ক</span>
+          <h1>সম্পাদকীয় ব্যবস্থাপনা</h1>
+          <p id="editor-identity"></p>
+        </div>
+        <div class="header-actions">
+          <button id="password-button" class="secondary-button" type="button">পাসওয়ার্ড সেট / পরিবর্তন</button>
+          <button id="logout-button" class="secondary-button" type="button">লগআউট</button>
+        </div>
+      </div>
+      <p id="editor-status" class="notice" role="status" aria-live="polite"></p>
+      <form id="password-form" class="password-card" hidden>
+        <h2>নতুন পাসওয়ার্ড সেট করুন</h2>
+        <p>কমপক্ষে ৮ অক্ষরের নতুন পাসওয়ার্ড দিন।</p>
+        <label>নতুন পাসওয়ার্ড
+          <input name="password" type="password" autocomplete="new-password" minlength="8" required>
+        </label>
+        <label>পাসওয়ার্ড নিশ্চিত করুন
+          <input name="password_confirm" type="password" autocomplete="new-password" minlength="8" required>
+        </label>
+        <div class="password-actions">
+          <button class="primary-button" type="submit">পাসওয়ার্ড সংরক্ষণ করুন</button>
+          <button id="cancel-password-button" class="secondary-button" type="button">বাতিল</button>
+        </div>
+      </form>
+
+      <nav class="tabs" aria-label="পর্যালোচনার তালিকা">
+        <button class="tab is-active" type="button" data-tab="submissions">জমা সংবাদ</button>
+        <button class="tab" type="button" data-tab="applications">প্রতিনিধি আবেদন</button>
+        <button class="tab" type="button" data-tab="articles">সাইটের নিউজ</button>
+      </nav>
+      <section id="submissions-list" class="record-list" aria-live="polite"></section>
+      <section id="applications-list" class="record-list" aria-live="polite" hidden></section>
+      <section id="articles-list" class="article-management" hidden>
+        <div class="article-toolbar">
+          <p>সাইটে প্রকাশিত নিউজ ও খসড়া এখান থেকে পরিচালনা করুন।</p>
+          <button id="new-article-button" class="primary-button" type="button">নতুন নিউজ লিখুন</button>
+        </div>
+        <form id="article-form" class="article-form" hidden>
+          <input name="id" type="hidden">
+          <h2 id="article-form-heading">নতুন নিউজ</h2>
+          <label>শিরোনাম
+            <input name="title" type="text" maxlength="240" required>
+          </label>
+          <label>বিভাগ
+            <select name="category" required>
+              <option>জাতীয়</option><option>রাজনীতি</option><option>আন্তর্জাতিক</option>
+              <option>অর্থনীতি</option><option>সারাদেশ</option><option>খেলাধুলা</option>
+              <option>বিনোদন</option><option>শিক্ষা</option><option>স্বাস্থ্য</option><option>ইসলাম</option>
+            </select>
+          </label>
+          <label>সংক্ষিপ্ত পরিচিতি
+            <textarea name="summary" rows="3" maxlength="1200"></textarea>
+          </label>
+          <label>ছবির HTTPS লিংক (ঐচ্ছিক)
+            <input name="image_url" type="url" placeholder="https://...">
+          </label>
+          <label>পূর্ণ প্রতিবেদন
+            <textarea name="body" rows="12" minlength="100" maxlength="50000" required></textarea>
+          </label>
+          <label>প্রকাশনা
+            <select name="status"><option value="draft">খসড়া</option><option value="published">এখনই প্রকাশ</option></select>
+          </label>
+          <div class="password-actions">
+            <button class="primary-button" type="submit">সংরক্ষণ করুন</button>
+            <button id="cancel-article-button" class="secondary-button" type="button">বাতিল</button>
+          </div>
+        </form>
+        <div id="managed-articles" class="record-list"></div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
