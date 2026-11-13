@@ -11,8 +11,8 @@ Bangla News Portal
   <meta name="description" content=" ট্রিবিউন বাংলা —বাংলার টপ সংবাদ, মানুষের জীবন আর সময়ের পরিবর্তনের এক ভিন্ন পাঠ। প্রচলিত খবরের বাইরে জানা-অজানা ঘটনা, জনপদের গল্প ও সমকালীন বাংলাদেশের অন্তরালের চিত্র তুলে ধরি নতুন দৃষ্টিতে।">
   <meta name="keywords" content="ট্রিবিউন বাংলা, বাংলা নিউজ পোর্টাল, ট্রিবিউন বাংলা, tribunebangla, tribunebangla.com, tribune bangla, tribune bangla News, বাংলা সংবাদ, বাংলা নিউজ, বাংলাদেশ সংবাদ, বাংলাদেশ নিউজ, সর্বশেষ সংবাদ, আজকের খবর, আজকের সংবাদ, ব্রেকিং নিউজ, অনলাইন নিউজ পোর্টাল, জাতীয় সংবাদ, আন্তর্জাতিক সংবাদ, রাজনীতি, রাজনৈতিক সংবাদ, অর্থনীতি, ব্যবসা বাণিজ্য, খেলাধুলা, ক্রিকেট সংবাদ, ফুটবল সংবাদ, বিনোদন সংবাদ, প্রযুক্তি সংবাদ, শিক্ষা সংবাদ, চাকরির খবর, স্বাস্থ্য সংবাদ, লাইফস্টাইল, অপরাধ সংবাদ, দুর্নীতির খবর, অনুসন্ধানী প্রতিবেদন, বিশেষ প্রতিবেদন, এক্সক্লুসিভ নিউজ, সত্য সংবাদ, নিরপেক্ষ সংবাদ, জনপ্রিয় সংবাদ, ভাইরাল খবর, স্থানীয় সংবাদ, জেলা সংবাদ, রাজধানীর খবর, ঢাকার খবর, গ্রামবাংলার খবর, কৃষি সংবাদ, আবহাওয়ার খবর, ধর্মীয় সংবাদ, প্রবাসের খবর, আন্তর্জাতিক রাজনীতি, নির্বাচন সংবাদ, সরকারি খবর, সরকারি চাকরি, আদালতের খবর, আইন ও বিচার, সড়ক দুর্ঘটনা, জনদুর্ভোগ, জনস্বার্থের খবর, সংবাদ আপডেট, লাইভ নিউজ, Latest News Bangladesh, Bangladesh News, Bangla News, Breaking News Bangladesh, Latest Bangla News, Online News Bangladesh, National News Bangladesh, International News, Political News Bangladesh, Sports News Bangladesh, Entertainment News Bangladesh, Business News Bangladesh, Technology News Bangladesh, Education News Bangladesh, Crime News Bangladesh, Dhaka News, District News Bangladesh, Bangladesh News Portal, Daily News Bangladesh, Aralerkhobor News, Aralerkhobor Online News, Bangla Breaking News, Trending News Bangladesh, Investigative Journalism Bangladesh">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="author" content="রিবিউন বাংলা">
-  <meta name="copyright" content="রিবিউন বাংলা">
+  <meta name="author" content="ট্রিবিউন বাংলা">
+  <meta name="copyright" content="ট্রিবিউন বাংলা">
   <link rel="canonical" href="https://aralerkhobor.com/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aralerkhobor.com/">
@@ -25,7 +25,7 @@ Bangla News Portal
   <meta property="og:locale" content="bn_BD">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://aralerkhobor.com/">
-  <meta name="twitter:title" content="রিবিউন বাংলা | রিবিউন বাংলা —বাংলার মাটি, মানুষের জীবন আর সময়ের পরিবর্তনের এক ভিন্ন পাঠ। প্রচলিত খবরের বাইরে জানা-অজানা ঘটনা, জনপদের গল্প ও সমকালীন বাংলাদেশের অন্তরালের চিত্র তুলে ধরি নতুন দৃষ্টিতে।">
+  <meta name="twitter:title" content="ট্রিবিউন বাংলা | ট্রিবিউন —বাংলার মাটি, মানুষের জীবন আর সময়ের পরিবর্তনের এক ভিন্ন পাঠ। প্রচলিত খবরের বাইরে জানা-অজানা ঘটনা, জনপদের গল্প ও সমকালীন বাংলাদেশের অন্তরালের চিত্র তুলে ধরি নতুন দৃষ্টিতে।">
   <meta name="twitter:description" content="রিবিউন বাংলা —বাংলার মাটি, মানুষের জীবন আর সময়ের পরিবর্তনের এক ভিন্ন পাঠ। প্রচলিত খবরের বাইরে জানা-অজানা ঘটনা, জনপদের গল্প ও সমকালীন বাংলাদেশের অন্তরালের চিত্র তুলে ধরি নতুন দৃষ্টিতে।">
   <meta name="twitter:image" content="https://aralerkhobor.com/uploads/20261026_214141_0000.jpg">
   <meta name="theme-color" content="#b30f0f">
